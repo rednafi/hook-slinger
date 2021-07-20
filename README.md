@@ -7,7 +7,7 @@
 
 </div>
 
-![img](https://user-images.githubusercontent.com/30027932/122619075-6a87b700-d0b1-11eb-9d6b-355446910cc1.png)
+![logo](https://user-images.githubusercontent.com/30027932/126405827-8b859b4c-89cd-40c8-a7d3-fe6e9fc64770.png)
 
 
 ## Description
