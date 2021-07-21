@@ -1,13 +1,11 @@
 <div align="center">
 
-<h1>Hook Slinger</h1>
-<strong>>> <i>A generic service to send, retry, and manage webhooks.</i> <<</strong>
-
-&nbsp;
-
-</div>
 
 ![logo](https://user-images.githubusercontent.com/30027932/126405827-8b859b4c-89cd-40c8-a7d3-fe6e9fc64770.png)
+
+<strong>>> <i>A generic service to send, retry, and manage webhooks.</i> <<</strong>
+
+</div>
 
 
 ## Description

@@ -1,0 +1,4 @@
+title="Hook Slinger Configuration"
+
+# List of allowed group
+groups = ["a", "b", "c"]

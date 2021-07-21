@@ -70,7 +70,13 @@ help: ## Show this help message.
 test: ## Run the tests against the current version of Python.
 	pytest
 
+
 .PHONY: dep_lock
 dep_lock: ## Locking the dependencies with 'pip-compile' command.
 	pip-compile requirements.in -o requirements.txt && \
 	pip-compile requirements-dev.in -o requirements-dev.txt
+
+
+.PHONY: run_server
+run_server: ## Running fastAPI in an ASGI server.
+	
