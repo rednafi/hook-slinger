@@ -18,6 +18,7 @@ MAX_RETRIES = int(os.environ["MAX_RETRIES"])
 INTERVAL = int(os.environ["INTERVAL"])
 
 # This block is picked up by RQ workers, don't change variable names.
-REDIS_URL = os.environ["REDIS_RQ_DSN"]
-QUEUE_NAMES = ["wq"]
-WORKER_NAME = f"wq_consumer_{str(uuid.uuid4())}"
+REDIS_URL = os.environ["REDIS_URL"]
+
+QUEUE_NAME = os.environ["QUEUE_NAME"]
+WORKER_NAME = f"{os.environ['WORKER_NAME_PREFIX']}_{str(uuid.uuid4())}"

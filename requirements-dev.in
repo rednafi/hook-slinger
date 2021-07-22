@@ -3,3 +3,5 @@ isort
 flake8
 mypy
 pip-tools
+types-redis
+pytest

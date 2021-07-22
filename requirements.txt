@@ -14,16 +14,22 @@ click==8.0.1
     # via
     #   rq
     #   uvicorn
-fastapi==0.66.1
+fastapi==0.67.0
     # via -r requirements.in
 h11==0.12.0
     # via
     #   httpcore
     #   uvicorn
+h2==3.2.0
+    # via httpx
+hpack==3.0.0
+    # via h2
 httpcore==0.13.6
     # via httpx
-httpx==0.18.2
+httpx[http2]==0.18.2
     # via -r requirements.in
+hyperframe==5.2.0
+    # via h2
 idna==3.2
     # via
     #   anyio
@@ -39,6 +45,8 @@ redis==3.5.3
 rfc3986[idna2008]==1.5.0
     # via httpx
 rq==1.9.0
+    # via -r requirements.in
+setproctitle==1.2.2
     # via -r requirements.in
 sniffio==1.2.0
     # via

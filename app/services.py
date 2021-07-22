@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 import typing
+import uuid
 from http import HTTPStatus
 
 import httpx
@@ -13,12 +14,9 @@ import config
 if typing.TYPE_CHECKING:
     from typing import NoReturn
 
-    from .views import WebhookPayload
+    from .views import SlingerRequestPayload
 
 __all__ = ("send_webhook", "validate_url")
-
-redis_conn = redis.Redis.from_url(config.REDIS_URL)
-queue = Queue("wq", connection=redis_conn)
 
 
 def validate_url(url: str) -> str | NoReturn:
@@ -40,7 +38,7 @@ def validate_url(url: str) -> str | NoReturn:
     return url
 
 
-def send_post_request(webhook_payload: WebhookPayload) -> NoReturn:
+def send_post_request(webhook_payload: SlingerRequestPayload) -> NoReturn:
     to_url = webhook_payload.to_url
     to_auth = webhook_payload.to_auth
     payload = webhook_payload.payload
@@ -68,9 +66,14 @@ def send_post_request(webhook_payload: WebhookPayload) -> NoReturn:
             raise ValueError("HTTP error occurred.")
 
 
-def send_webhook(*, webhook_payload: WebhookPayload) -> None:
+redis_conn = redis.Redis.from_url(config.REDIS_URL)
+queue = Queue(config.QUEUE_NAME, connection=redis_conn)
+
+
+def send_webhook(*, webhook_payload: SlingerRequestPayload) -> None:
     queue.enqueue(
         send_post_request,
         webhook_payload,
         retry=Retry(max=config.MAX_RETRIES, interval=config.INTERVAL),
+        job_id=f"{webhook_payload.group}_{webhook_payload.tag}_{str(uuid.uuid4())}",
     )

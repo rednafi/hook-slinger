@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  redis:
+    image: redis:alpine
+    container_name: wh_redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6380:6380"
+    command: redis-server --port 6380
+
+  app:
+    build: .
+    container_name: wh_app
+    entrypoint: ["/bin/sh","-c"]
+    command:
+      - |
+        uvicorn app.main:app --port 5000 --host app
+
+    volumes:
+      - ./app:/code/app
+    ports:
+      - "5000:5000"
+    env_file:
+        - ".env"
+    depends_on:
+      - redis
+
+  worker:
+    build: .
+    entrypoint: ["/bin/sh","-c"]
+    command:
+      - |
+        python -m app.workers
+    volumes:
+      - ./app:/code/app
+
+    env_file:
+        - ".env"
+    depends_on:
+      - redis
+      - app
+
+  test:
+    build: .
+    entrypoint: ["/bin/sh","-c"]
+    command:
+      - |
+        python -m app.workers
+    volumes:
+      - ./app:/code/app
+
+    env_file:
+        - ".env"
+    depends_on:
+      - redis
+      - app
+      - worker
