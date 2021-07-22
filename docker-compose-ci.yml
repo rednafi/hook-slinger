@@ -48,7 +48,6 @@ services:
     command:
       - |
         pip install -r requirements-dev.txt
-        pytest
         black . --check
         isort . --check
         pytest -s -v

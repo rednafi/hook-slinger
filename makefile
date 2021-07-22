@@ -83,10 +83,10 @@ start_servers: ## Start the app, worker and monitor.
 
 
 .PHONY: stop_servers
-stop_servers: ## Start the app, worker and monitor.
+stop_servers: ## Stop the app, worker and monitor.
 	docker-compose down -t 2
 
 
 .PHONY: start_tests
-start_tests: ## Running fastAPI in an ASGI server.
+start_tests: ## Start the servers and execute the tests.
 	docker-compose -f docker-compose-ci.yml up --build -d
