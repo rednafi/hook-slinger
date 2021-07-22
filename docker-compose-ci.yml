@@ -47,7 +47,12 @@ services:
     entrypoint: ["/bin/sh","-c"]
     command:
       - |
-        python -m app.workers
+        pip install -r requirements-dev.txt
+        pytest
+        black . --check
+        isort . --check
+        pytest -s -v
+
     volumes:
       - ./app:/code/app
 

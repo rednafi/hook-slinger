@@ -14,6 +14,8 @@ import config
 if typing.TYPE_CHECKING:
     from typing import NoReturn
 
+    from rq.job import Job
+
     from .views import SlingerRequestPayload
 
 __all__ = ("send_webhook", "validate_url")
@@ -70,8 +72,8 @@ redis_conn = redis.Redis.from_url(config.REDIS_URL)
 queue = Queue(config.QUEUE_NAME, connection=redis_conn)
 
 
-def send_webhook(*, webhook_payload: SlingerRequestPayload) -> None:
-    queue.enqueue(
+def send_webhook(*, webhook_payload: SlingerRequestPayload) -> Job:
+    return queue.enqueue(
         send_post_request,
         webhook_payload,
         retry=Retry(max=config.MAX_RETRIES, interval=config.INTERVAL),

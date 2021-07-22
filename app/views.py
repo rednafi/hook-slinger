@@ -42,6 +42,7 @@ class SlingerResponsePayload(BaseModel):
     status: Literal["registered"]
     ok: bool
     message: str
+    job_id: Optional[str]
 
     class Config:
         schema_extra = {
@@ -49,6 +50,7 @@ class SlingerResponsePayload(BaseModel):
                 "status": "registered",
                 "ok": True,
                 "message": "Webhook registration successful.",
+                "job_id": "Bangladesh_Dhaka_0f8346f4-8b84-4dc1-9df3-a5c09024e45c",
             },
         }
 
@@ -156,11 +158,12 @@ async def hook_slinger_view(
         )
 
     try:
-        send_webhook(webhook_payload=webhook_payload)
+        job = send_webhook(webhook_payload=webhook_payload)
         return SlingerResponsePayload(
             status="registered",
             ok=True,
             message="Webhook registration successful.",
+            job_id=job.get_id(),
         )
 
     except Exception:

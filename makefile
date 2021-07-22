@@ -77,6 +77,16 @@ dep_lock: ## Locking the dependencies with 'pip-compile' command.
 	pip-compile requirements-dev.in -o requirements-dev.txt
 
 
-.PHONY: run_server
-run_server: ## Running fastAPI in an ASGI server.
-	
+.PHONY: start_servers
+start_servers: ## Start the app, worker and monitor.
+	docker-compose up --build -d
+
+
+.PHONY: stop_servers
+stop_servers: ## Start the app, worker and monitor.
+	docker-compose down -t 2
+
+
+.PHONY: start_tests
+start_tests: ## Running fastAPI in an ASGI server.
+	docker-compose -f docker-compose-ci.yml up --build -d
