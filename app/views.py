@@ -10,7 +10,7 @@ from starlette.status import HTTP_403_FORBIDDEN
 
 import config
 
-from .services import send_webhook
+from .services import send_webhook, validate_url
 
 
 class WebhookPayload(BaseModel):
@@ -70,6 +70,15 @@ async def secret_based_security(header_param: str = Security(secret_header)):
 async def hook_slinger_view(
     webhook_payload: WebhookPayload,
 ) -> WebhookPayload:
+
+    try:
+        validate_url(webhook_payload.to_url)
+    except ValueError:
+        return APIResponsePayload(
+            status="not_registered",
+            ok=False,
+            message="Payload parameter 'to_url' is not properly formatted.",
+        )
 
     try:
         send_webhook(webhook_payload=webhook_payload)

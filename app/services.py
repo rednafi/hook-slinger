@@ -15,13 +15,13 @@ if typing.TYPE_CHECKING:
 
     from .views import WebhookPayload
 
-__all__ = ("send_webhook",)
+__all__ = ("send_webhook", "validate_url")
 
 redis_conn = redis.Redis.from_url(config.REDIS_URL)
 queue = Queue("wq", connection=redis_conn)
 
 
-def validate_url(url: str) -> bool:
+def validate_url(url: str) -> str | NoReturn:
     # This was shamelessly copied from old Django source code.
     # https://github.com/django/django/blob/stable/1.3.x/django/core/validators.py#L45
     regex = re.compile(
@@ -34,16 +34,16 @@ def validate_url(url: str) -> bool:
         re.IGNORECASE,
     )
 
-    return re.match(regex, url) is not None
+    if re.match(regex, url) is None:
+        raise ValueError("Value of 'url' is not a valid URL.")
+
+    return url
 
 
-def send_post_request(webhook_payload: WebhookPayload) -> bool | NoReturn:
+def send_post_request(webhook_payload: WebhookPayload) -> NoReturn:
     to_url = webhook_payload.to_url
     to_auth = webhook_payload.to_auth
     payload = webhook_payload.payload
-
-    if not validate_url(to_url):
-        raise ValueError("Value of 'to_url' is not a valid URL.")
 
     if to_auth:
         headers = {
@@ -63,7 +63,9 @@ def send_post_request(webhook_payload: WebhookPayload) -> bool | NoReturn:
             json=payload,
             timeout=config.HTTP_TIMEOUT,
         )
-        return response.status_code == HTTPStatus.OK
+
+        if not response.status_code == HTTPStatus.OK:
+            raise ValueError("HTTP error occurred.")
 
 
 def send_webhook(*, webhook_payload: WebhookPayload) -> None:
