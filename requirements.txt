@@ -4,17 +4,52 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
+anyio==3.2.1
+    # via httpcore
+asgiref==3.4.1
+    # via uvicorn
+certifi==2021.5.30
+    # via httpx
 click==8.0.1
-    # via rq
+    # via
+    #   rq
+    #   uvicorn
 fastapi==0.66.1
     # via -r requirements.in
+h11==0.12.0
+    # via
+    #   httpcore
+    #   uvicorn
+httpcore==0.13.6
+    # via httpx
+httpx==0.18.2
+    # via -r requirements.in
+idna==3.2
+    # via
+    #   anyio
+    #   rfc3986
 pydantic==1.8.2
     # via fastapi
+python-dotenv==0.18.0
+    # via -r requirements.in
 redis==3.5.3
-    # via rq
+    # via
+    #   -r requirements.in
+    #   rq
+rfc3986[idna2008]==1.5.0
+    # via httpx
 rq==1.9.0
     # via -r requirements.in
+sniffio==1.2.0
+    # via
+    #   anyio
+    #   httpcore
+    #   httpx
 starlette==0.14.2
     # via fastapi
+toml==0.10.2
+    # via -r requirements.in
 typing-extensions==3.10.0.0
     # via pydantic
+uvicorn==0.14.0
+    # via -r requirements.in

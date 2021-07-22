@@ -1,63 +1,76 @@
 from __future__ import annotations
 
+import json
+import re
 import typing
-from pathlib import Path
+import uuid
+from http import HTTPStatus
+from typing import Any
 
 import httpx
-import toml
+import redis
+import rq
+
+import config
 
 if typing.TYPE_CHECKING:
-    from collections.abc import MutableMapping
-    from typing import Any, NoReturn
+    from .views import WebhookPayload
+
+redis_conn = redis.Redis.from_url(config.REDIS_DSN)
+queue = rq.Queue("webhook_queue", connection=redis_conn)
 
 
-class ConfigFormatError(Exception):
-    pass
+def _validate_url(url: str) -> bool:
+    # This was shamelessly copied from old Django source code.
+    # https://github.com/django/django/blob/stable/1.3.x/django/core/validators.py#L45
+    regex = re.compile(
+        r"^(?:http|ftp)s?://"  # http:// or https://
+        r"(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|"  # domain...
+        r"localhost|"  # localhost...
+        r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"  # ...or ip
+        r"(?::\d+)?"  # optional port
+        r"(?:/?|[/?]\S+)$",
+        re.IGNORECASE,
+    )
+
+    return re.match(regex, url) is not None
 
 
-class ConfigNotFoundError(Exception):
-    pass
+def _save_payload_to_db(webhook_payload: WebhookPayload) -> bool:
+    webhook_payload = json.dumps(webhook_payload.dict())
+    key = f"webhook_payload:{str(uuid.uuid4())}"
+    return redis_conn.setex(key, config.PAYLOAD_TTL, webhook_payload)
 
 
-class ConfigKeyMissingError(Exception):
-    pass
+def _send_post_request(webhook_payload: WebhookPayload) -> bool:
+    to_url = webhook_payload.to_url
+    to_auth = webhook_payload.to_auth
+    payload = webhook_payload.payload
 
+    if not _validate_url(to_url):
+        raise ValueError("Value of 'to_url' is not a valid URL.")
 
-def validate_config(
-    config: MutableMapping[str, Any]
-) -> MutableMapping[str, Any] | NoReturn:
+    if to_auth:
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": to_auth,
+        }
 
-    for key in ("groups",):
-        if not key in config:
-            raise ConfigKeyMissingError(
-                f"Key '{key}' must be present in the 'config.toml' file"
-            )
-    return config
+    else:
+        headers = {
+            "Content-Type": "application/json",
+        }
 
-
-def read_config() -> MutableMapping[str, Any] | NoReturn:
-    toml_path = Path(__file__).parent.parent / "config.toml"
-
-    if not toml_path.exists():
-        raise ConfigNotFoundError(
-            "Did to forget to add 'config.toml' to your root directory?"
+    with httpx.Client(http2=True) as session:
+        response = session.post(
+            to_url,
+            headers=headers,
+            json=payload,
+            timeout=config.HTTP_TIMEOUT,
         )
-
-    try:
-        config = toml.load(str(toml_path))
-
-    except toml.TomlDecodeError as exc:
-        raise ConfigFormatError("Error in your config file format. \n") from exc
-
-    # Validate and config
-    return validate_config(config)
+        return response.status_code == HTTPStatus.OK
 
 
-print(read_config())
-
-# def save_payload_to_db():
-#     ...
-
-
-# def send_post_request(url: str, ) -> None:
-#     with httpx.Client(http2=True) as session:
+def send_webhook(*, webhook_payload: WebhookPayload):
+    _save_payload_to_db(webhook_payload)
+    queue.enqueue(_send_post_request, webhook_payload)

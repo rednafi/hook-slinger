@@ -3,3 +3,5 @@ fastapi==0.66.1
 uvicorn==0.14.0
 httpx==0.18.2
 toml==0.10.2
+redis==3.5.3
+python-dotenv==0.18.0
