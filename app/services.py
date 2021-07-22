@@ -9,18 +9,20 @@ from typing import Any
 
 import httpx
 import redis
-import rq
+from rq import Queue, Retry
 
 import config
 
 if typing.TYPE_CHECKING:
     from .views import WebhookPayload
 
-redis_conn = redis.Redis.from_url(config.REDIS_DSN)
-queue = rq.Queue("webhook_queue", connection=redis_conn)
+__all__ = ("send_webhook",)
+
+redis_conn = redis.Redis.from_url(config.REDIS_URL)
+queue = Queue("wq", connection=redis_conn)
 
 
-def _validate_url(url: str) -> bool:
+def validate_url(url: str) -> bool:
     # This was shamelessly copied from old Django source code.
     # https://github.com/django/django/blob/stable/1.3.x/django/core/validators.py#L45
     regex = re.compile(
@@ -36,18 +38,18 @@ def _validate_url(url: str) -> bool:
     return re.match(regex, url) is not None
 
 
-def _save_payload_to_db(webhook_payload: WebhookPayload) -> bool:
+def save_payload_to_db(webhook_payload: WebhookPayload) -> bool:
     webhook_payload = json.dumps(webhook_payload.dict())
     key = f"webhook_payload:{str(uuid.uuid4())}"
     return redis_conn.setex(key, config.PAYLOAD_TTL, webhook_payload)
 
 
-def _send_post_request(webhook_payload: WebhookPayload) -> bool:
+def send_post_request(webhook_payload: WebhookPayload) -> bool:
     to_url = webhook_payload.to_url
     to_auth = webhook_payload.to_auth
     payload = webhook_payload.payload
 
-    if not _validate_url(to_url):
+    if not validate_url(to_url):
         raise ValueError("Value of 'to_url' is not a valid URL.")
 
     if to_auth:
@@ -72,5 +74,11 @@ def _send_post_request(webhook_payload: WebhookPayload) -> bool:
 
 
 def send_webhook(*, webhook_payload: WebhookPayload):
-    _save_payload_to_db(webhook_payload)
-    queue.enqueue(_send_post_request, webhook_payload)
+    save_payload_to_db(webhook_payload)
+    # Retry up to 3 times, with 60 seconds interval in between executions
+    queue.enqueue(
+        send_post_request,
+        retry=Retry(max=config.MAX_RETRIES, interval=config.INTERVAL),
+    )
+
+    queue.enqueue(send_post_request, webhook_payload)
