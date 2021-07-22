@@ -8,4 +8,7 @@ load_dotenv(".env")
 PAYLOAD_TTL = int(os.environ["PAYLOAD_TTL"])
 
 HTTP_TIMEOUT = int(os.environ["HTTP_READ_TIMEOUT"])
-REDIS_DSN=os.environ['REDIS_RQ_DSN']
+REDIS_DSN = os.environ["REDIS_RQ_DSN"]
+
+# SHA-256 simple token
+API_TOKEN = os.environ["API_TOKEN"]
