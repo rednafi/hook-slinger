@@ -5,7 +5,6 @@ import re
 import typing
 import uuid
 from http import HTTPStatus
-from typing import Any
 
 import httpx
 import redis
@@ -14,6 +13,8 @@ from rq import Queue, Retry
 import config
 
 if typing.TYPE_CHECKING:
+    from typing import NoReturn
+
     from .views import WebhookPayload
 
 __all__ = ("send_webhook",)
@@ -44,7 +45,7 @@ def save_payload_to_db(webhook_payload: WebhookPayload) -> bool:
     return redis_conn.setex(key, config.PAYLOAD_TTL, webhook_payload)
 
 
-def send_post_request(webhook_payload: WebhookPayload) -> bool:
+def send_post_request(webhook_payload: WebhookPayload) -> bool | NoReturn:
     to_url = webhook_payload.to_url
     to_auth = webhook_payload.to_auth
     payload = webhook_payload.payload

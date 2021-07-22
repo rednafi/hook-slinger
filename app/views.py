@@ -23,6 +23,10 @@ class WebhookPayload(BaseModel):
     payload: dict[str, Any]  # The actual payload to be sent to 'to_url'
 
 
+class APIResponsePayload(BaseModel):
+    """Pydantic model to declare the response json shape of hook slinger API."""
+
+
 router = APIRouter()
 
 SECRET_KEY_NAME = "Authorization"

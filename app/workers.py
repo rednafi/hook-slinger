@@ -1,4 +1,4 @@
-"""Module dedicated to spawn rq workers"""
+"""Module dedicated to spawn rq workers."""
 
 from redis import Redis
 from rq import Connection, Queue
