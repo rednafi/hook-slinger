@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 
 from fastapi import APIRouter, Depends, Security
 from fastapi.security import APIKeyHeader
@@ -25,6 +25,10 @@ class WebhookPayload(BaseModel):
 
 class APIResponsePayload(BaseModel):
     """Pydantic model to declare the response json shape of hook slinger API."""
+
+    status: Literal["registered", "not_registered"]
+    ok: bool
+    message: str
 
 
 router = APIRouter()
@@ -67,5 +71,17 @@ async def hook_slinger_view(
     webhook_payload: WebhookPayload,
 ) -> WebhookPayload:
 
-    send_webhook(webhook_payload=webhook_payload)
-    return webhook_payload
+    try:
+        send_webhook(webhook_payload=webhook_payload)
+        return APIResponsePayload(
+            status="registered",
+            ok=True,
+            message="Webhook registration successful.",
+        )
+
+    except Exception:
+        return APIResponsePayload(
+            status="not_registered",
+            ok=False,
+            message="Webhook registration failed.",
+        )

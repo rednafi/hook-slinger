@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-import json
 import re
 import typing
-import uuid
 from http import HTTPStatus
 
 import httpx
@@ -39,12 +37,6 @@ def validate_url(url: str) -> bool:
     return re.match(regex, url) is not None
 
 
-def save_payload_to_db(webhook_payload: WebhookPayload) -> bool:
-    webhook_payload = json.dumps(webhook_payload.dict())
-    key = f"webhook_payload:{str(uuid.uuid4())}"
-    return redis_conn.setex(key, config.PAYLOAD_TTL, webhook_payload)
-
-
 def send_post_request(webhook_payload: WebhookPayload) -> bool | NoReturn:
     to_url = webhook_payload.to_url
     to_auth = webhook_payload.to_auth
@@ -74,12 +66,9 @@ def send_post_request(webhook_payload: WebhookPayload) -> bool | NoReturn:
         return response.status_code == HTTPStatus.OK
 
 
-def send_webhook(*, webhook_payload: WebhookPayload):
-    save_payload_to_db(webhook_payload)
-    # Retry up to 3 times, with 60 seconds interval in between executions
+def send_webhook(*, webhook_payload: WebhookPayload) -> None:
     queue.enqueue(
         send_post_request,
+        webhook_payload,
         retry=Retry(max=config.MAX_RETRIES, interval=config.INTERVAL),
     )
-
-    queue.enqueue(send_post_request, webhook_payload)
