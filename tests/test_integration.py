@@ -1,7 +1,7 @@
 """
 Integrations tests.
 This is only expected to be run inside a docker container.
-Run `make start_tests` to execture the tests.
+Run `make start_tests` to execute the tests.
 """
 
 import time

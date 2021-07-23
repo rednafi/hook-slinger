@@ -5,20 +5,30 @@ from dotenv import load_dotenv
 
 load_dotenv(".env")
 
-# By default data lives in the db for 7 days.
-PAYLOAD_TTL = int(os.environ["PAYLOAD_TTL"])
 
-HTTP_TIMEOUT = int(os.environ["HTTP_READ_TIMEOUT"])
+# Webhook post timeout in seconds.
+HTTP_TIMEOUT: int = int(os.environ.get("HTTP_TIMEOUT", 30))
 
-# SHA-256 simple token
-API_TOKEN = os.environ["API_TOKEN"]
+# Redis.
+REDIS_URL: str = os.environ.get("REDIS_URL", "redis://redis:6380/1")
 
-# Retries
-MAX_RETRIES = int(os.environ["MAX_RETRIES"])
-INTERVAL = int(os.environ["INTERVAL"])
+# API token, SHA-256 key.
+API_TOKEN: str = os.environ.get(
+    "API_TOKEN", "$5$1O/inyTZhNvFt.GW$Zfckz9OL.lm2wh3IewTm8YJ914wjz5txFnXG5XW.wb4"
+)
 
-# This block is picked up by RQ workers, don't change variable names.
-REDIS_URL = os.environ["REDIS_URL"]
+# Retry parameters.
+MAX_RETRIES: int = int(os.environ.get("MAX_RETRIES", 3))
+INTERVAL: int = int(os.environ.get("INTERVAL", 5))
 
-QUEUE_NAME = os.environ["QUEUE_NAME"]
-WORKER_NAME = f"{os.environ['WORKER_NAME_PREFIX']}_{str(uuid.uuid4())}"
+# Message queue configs.
+QUEUE_NAME: str = os.environ.get("QUEUE_NAME", "webhook_queue")
+WORKER_NAME_PREFIX: str = os.environ.get(
+    "WORKER_NAME_PREFIX",
+    "webhook_queue_consumer",
+)
+WORKER_NAME = f"{WORKER_NAME_PREFIX}_{str(uuid.uuid4())}"
+
+
+# Log.
+LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")

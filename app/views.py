@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from datetime import datetime
+from enum import Enum
 from http import HTTPStatus
-from typing import Any, Literal, Optional
+from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, Security
 from fastapi.security import APIKeyHeader
@@ -11,6 +13,18 @@ from starlette.exceptions import HTTPException
 import config
 
 from .services import send_webhook, validate_url
+
+
+class JobStatus(str, Enum):
+    """RQ job status, shamelessly copied from the RQ source."""
+
+    QUEUED = "queued"
+    FINISHED = "finished"
+    FAILED = "failed"
+    STARTED = "started"
+    DEFERRED = "deferred"
+    SCHEDULED = "scheduled"
+    STOPPED = "stopped"
 
 
 class SlingerRequestPayload(BaseModel):
@@ -39,10 +53,11 @@ class SlingerRequestPayload(BaseModel):
 class SlingerResponsePayload(BaseModel):
     """Pydantic model to declare the response json shape of hook slinger API."""
 
-    status: Literal["registered"]
+    status: JobStatus
     ok: bool
     message: str
     job_id: Optional[str]
+    queued_at: str = datetime.utcnow().isoformat()
 
     class Config:
         schema_extra = {
@@ -51,6 +66,7 @@ class SlingerResponsePayload(BaseModel):
                 "ok": True,
                 "message": "Webhook registration successful.",
                 "job_id": "Bangladesh_Dhaka_0f8346f4-8b84-4dc1-9df3-a5c09024e45c",
+                "queued_at": "2021-07-23T19:38:41.061838",
             },
         }
 
@@ -160,7 +176,7 @@ async def hook_slinger_view(
     try:
         job = send_webhook(webhook_payload=webhook_payload)
         return SlingerResponsePayload(
-            status="registered",
+            status=job.get_status(),
             ok=True,
             message="Webhook registration successful.",
             job_id=job.get_id(),
