@@ -9,6 +9,7 @@ import config
 listen = [config.QUEUE_NAME]
 redis_conn = Redis.from_url(config.REDIS_URL)
 
+
 if __name__ == "__main__":
     with Connection(redis_conn):
         worker = Worker(map(Queue, listen), name=config.WORKER_NAME)

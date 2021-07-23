@@ -4,11 +4,12 @@ This is only expected to be run inside a docker container.
 Run `make start_tests` to execture the tests.
 """
 
+import time
+from http import HTTPStatus
+
 import httpx
 from redis import Redis
 from rq.job import Job
-from http import HTTPStatus
-import time
 
 import config
 
@@ -28,7 +29,7 @@ def test_webhook_throw():
 
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Token {config.API_TOKEN}"
+            "Authorization": f"Token {config.API_TOKEN}",
         }
 
         response = session.post(
@@ -40,7 +41,7 @@ def test_webhook_throw():
         assert response.status_code == HTTPStatus.ACCEPTED
 
         result = response.json()
-        job_id = result['job_id']
+        job_id = result["job_id"]
         job = Job.fetch(job_id, connection=redis_conn)
         maybe_queued = job.get_status()
 
@@ -56,4 +57,4 @@ def test_webhook_throw():
             counter += 1
             if counter == 10:
                 break
-        raise TimeoutError('HTTP response took too long.')
+        raise TimeoutError("HTTP response took too long.")
