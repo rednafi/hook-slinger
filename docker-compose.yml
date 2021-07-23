@@ -41,3 +41,22 @@ services:
     depends_on:
       - redis
       - app
+
+  monitor:
+    build: .
+    entrypoint: ["/bin/sh","-c"]
+    command:
+      - |
+        pip install rqmonitor==1.0.4
+        rqmonitor -b monitor -p 8899 -u ${REDIS_URL}
+
+    volumes:
+      - ./app:/code/app
+    ports:
+      - "8899:8899"
+    env_file:
+        - ".env"
+    depends_on:
+      - redis
+      - app
+      - worker

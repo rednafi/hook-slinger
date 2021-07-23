@@ -84,7 +84,8 @@ start_servers: ## Start the app, worker and monitor.
 
 .PHONY: stop_servers
 stop_servers: ## Stop the app, worker and monitor.
-	docker-compose down -t 2
+	docker system prune
+	docker-compose down -t 1
 
 
 .PHONY: start_tests

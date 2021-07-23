@@ -25,7 +25,7 @@ class SlingerRequestPayload(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "to_url": "https://webhook.site/aa7e2e7e-a62d-4505-8879-13bd806da6d5",
+                "to_url": "https://webhook.site/37ad9530-59c3-430d-9db6-e68317321a9f",
                 "to_auth": "",
                 "tag": "Dhaka",
                 "group": "Bangladesh",
@@ -130,7 +130,7 @@ async def hook_slinger_view(
 
     ```
     {
-        "to_url": "https://webhook.site/aa7e2e7e-a62d-4505-8879-13bd806da6d5",
+        "to_url": "https://webhook.site/37ad9530-59c3-430d-9db6-e68317321a9f",
         "to_auth": "",
         "tag": "Dhaka",
         "group": "Bangladesh",
