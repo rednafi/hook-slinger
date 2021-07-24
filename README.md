@@ -40,12 +40,12 @@ Technically, a webhook is a mere POST request—triggered by a system—when a p
 
 However, there are a few factors that make it tricky to manage the life cycle of a webhook, such as:
 
-* Dealing with server failures on both the sending and the receiving end.
+* Dealing with system failures on both the sending and the receiving end.
 * Managing HTTP timeouts.
-* Retrying the requests gracefully without overloading the recipients.
+* Handling exceptions and retrying the requests without overwhelming the recipients.
 * Avoiding retry loop on the sending side.
-* Monitoring and providing scope for manual interventions.
-* Scaling them quickly; either vertically or horizontally.
+* Monitoring and providing scopes for manual interventions.
+* Scaling the system quickly; either vertically or horizontally.
 * Decoupling webhook management logic from your primary application logic.
 
 Properly dealing with these concerns can be cumbersome; especially when sending webhooks is just another small part of your application and you just want it to work without you having to deal with all the hairy details every time. Hook Slinger aims to alleviate this pain point.
@@ -54,9 +54,9 @@ Properly dealing with these concerns can be cumbersome; especially when sending 
 
 Hook Slinger exposes a single endpoint where you can post your webhook payload, destination URL, auth details, and it'll make the POST request for you asynchronously in the background. Under the hood, the service uses:
 
-* [FastAPI](https://fastapi.tiangolo.com/) to provide a [Uvicorn](https://www.uvicorn.org/) driven [ASGI](https://asgi.readthedocs.io/en/latest/#) server.
+* [FastAPI](https://fastapi.tiangolo.com/) to provide a [Uvicorn](https://www.uvicorn.org/) powered [ASGI](https://asgi.readthedocs.io/en/latest/#) server.
 
-* [Redis](https://redis.io/) and [RQ](https://python-rq.org/docs/jobs/) for implementing message queues that provide the asynchrony and robust failure handling mechanism.
+* [Redis](https://redis.io/) and [RQ](https://python-rq.org/docs/jobs/) for implementing message queues that provide the asynchrony and robust failure handling mechanisms.
 
 * [Rqmonitor](https://github.com/pranavgupta1234/rqmonitor) to provide a dashboard for monitoring the status of the webhooks and manually retrying the failed jobs.
 
@@ -118,7 +118,7 @@ This app implements a rudimentary token-based authentication system where you're
 
 Copy the default token value from the description corpus, then click the green button on the top right that says **Authorize**, and paste the value in the prompt box. Click the **Authorize** button again and that'll conclude the login step. In your production application, you should implement a robust authentication system or at least change this default token.
 
-To send a webhook, you'll need a URL where you'll be able to make the POST request. For this demonstration, let's pick this [webhook site](https://webhook.site/) service to monitor the received webhooks. It gives you a unique URL against which you'll be able to make the post requests and monitor them in a dashboard like this:
+To send a webhook, you'll need a URL where you'll be able to make the POST request. For this demonstration, let's pick this [webhook site](https://webhook.site/) service to monitor the received webhooks. It gives you a unique URL against which you'll be able to make the POST requests and monitor them in a dashboard like this:
 
 
 ![Webhook Site](./art/webhook_site.png)
