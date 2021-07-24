@@ -7,24 +7,42 @@
 
 </div>
 
+## Table of Contents
+
+* [Description](#description)
+  * [What?](#what)
+  * [Why?](#why)
+  * [How?](#how)
+* [Installation](#installation)
+* [Usage](#usage)
+  * [Exploring the Interactive API Docs](#exploring-the-interactive-api-docs)
+* [Sending A Webhook Via cURL](#sending-a-webhook-via-curl)
+* [Sending A Webhook Via Python](#sending-a-webhook-via-python)
+  * [Exploring the Container Logs](#exploring-the-container-logs)
+  * [Scaling Up the Service](#scaling-up-the-service)
+
 
 ## Description
 
 ### What?
 
-Hook Slinger acts as a simple service that lets you send, retry, and manage event-triggered POST requests, aka webhooks. It provides a fully contained docker image that is easy to orchestrate, manage, and scale.
+Hook Slinger acts as a simple service that lets you send, retry, and manage event-triggered POST requests, aka webhooks. It provides a fully self-contained docker image that is easy to orchestrate, manage, and scale.
 
 ### Why?
 
-Technically, a webhook is a mere POST request triggered by a system when a particular event occurs. However, there are a few factors that make it tricky to manage the life cycle of a webhook, such as:
+Technically, a webhook is a mere POST request—triggered by a system—when a particular event occurs. The following diagram shows how a simple POST request takes the webhook nomenclature when invoked by an event trigger.
+
+![Webhook Concept](./art/webhook_concept.png)
+
+However, there are a few factors that make it tricky to manage the life cycle of a webhook, such as:
 
 * Dealing with server failures on both the sending and the receiving end.
 * Managing HTTP timeouts.
 * Retrying the requests gracefully without overloading the recipients.
-* Avoiding retry loop on the sending end.
+* Avoiding retry loop on the sending side.
 * Monitoring and providing scope for manual interventions.
 * Scaling them quickly; either vertically or horizontally.
-* Decoupling webhook management logic from your primary app logic.
+* Decoupling webhook management logic from your primary application logic.
 
 Properly dealing with these concerns can be cumbersome; especially when sending webhooks is just another small part of your application and you just want it to work without you having to deal with all the hairy details every time. Hook Slinger aims to alleviate this pain point.
 
@@ -33,14 +51,18 @@ Properly dealing with these concerns can be cumbersome; especially when sending 
 Hook Slinger exposes a single endpoint where you can post your webhook payload, destination URL, auth details, and it'll make the POST request for you asynchronously in the background. Under the hood, the service uses:
 
 * [FastAPI](https://fastapi.tiangolo.com/) to provide a [Uvicorn](https://www.uvicorn.org/) driven [ASGI](https://asgi.readthedocs.io/en/latest/#) server.
+
 * [Redis](https://redis.io/) and [RQ](https://python-rq.org/docs/jobs/) for implementing message queues that provide the asynchrony and robust failure handling mechanism.
-* Rqmonitor to provide a dashboard for monitoring the status of the webhooks and manually retrying the failed jobs.
+
+* [Rqmonitor](https://github.com/pranavgupta1234/rqmonitor) to provide a dashboard for monitoring the status of the webhooks and manually retrying the failed jobs.
+
+* [Rich](https://github.com/willmcgugan/rich) to make the container logs colorful and more human friendly.
 
 The simplified app architecture looks something this:
 
 ![Topology](./art/topology.png)
 
-In the above image, the webhook payload is first sent to the `app` and the `app` uses the `worker` instance to make the POST request. The Redis DB is used for fast bookkeeping and async message queue implementation. The `monitor` instance provides a GUI to monitor and manage the webhooks. Multiple `worker` instances can be spawned to achieve linear horizontal scale-up.
+In the above image, the webhook payload is first sent to the `app` and the `app` leverages the `worker` instance to make the POST request. Redis DB is used for fast bookkeeping and async message queue implementation. The `monitor` instance provides a GUI to monitor and manage the webhooks. Multiple `worker` instances can be spawned to achieve linear horizontal scale-up.
 
 ## Installation
 
@@ -53,14 +75,16 @@ In the above image, the webhook payload is first sent to the `app` and the `app`
     ```
     make start_servers
     ```
-    This will:
-    * Start an `app` server that exposes port `5000`.
 
-    * Start an Alpine-based Redis server that opens port `6380`.
+    This will:
+
+    * Start an `app` server that can be accessed from port `5000`.
+
+    * Start an Alpine-based Redis server that exposes port `6380`.
 
     * Start a single `worker` that will carry out the actual tasks.
 
-    * Start a `rqmonitor` instance.
+    * Start a `rqmonitor` instance that opens port `8899`.
 
 * To shut down everything, run:
 
@@ -74,7 +98,7 @@ In the above image, the webhook payload is first sent to the `app` and the `app`
 
 ### Exploring the Interactive API Docs
 
-To try out the entire workflow interactively, head over to the following URL in your browser:
+To try out the entire workflow interactively, head over to the following URL on your browser:
 
 ```
 http://localhost:5000/docs
@@ -88,9 +112,9 @@ This app implements a rudimentary token-based authentication system where you're
 
 ![API Description](./art/api_descr.png)
 
-Copy the default token value from the description corpus, then click the green button on the top right that says **Authorize** and paste the value in the prompt box. Click the **Authorize** button again and that'll conclude the login step. In your production application, you should implement a robust auth system or at least change this default token.
+Copy the default token value from the description corpus, then click the green button on the top right that says **Authorize**, and paste the value in the prompt box. Click the **Authorize** button again and that'll conclude the login step. In your production application, you should implement a robust authentication system or at least change this default token.
 
-To send a webhook, you'll need a URL where you'll be able to make the POST request. For this demonstration, let's pick [this](https://webhook.site/) service to monitor the received webhooks. It gives you a unique URL against which you'll be able to make the post requests and monitor them in a dashboard like this:
+To send a webhook, you'll need a URL where you'll be able to make the POST request. For this demonstration, let's pick this [webhook site](https://webhook.site/) service to monitor the received webhooks. It gives you a unique URL against which you'll be able to make the post requests and monitor them in a dashboard like this:
 
 
 ![Webhook Site](./art/webhook_site.png)
@@ -252,7 +276,7 @@ You should see something like this:
 
 ### Scaling Up the Service
 
-Hook Slinger offers easy horizontal scale-ups, powered by the `docker-compose scale` command. In this case, scaling up means, spawning new workers in separate containers. Let's spawn 2 worker containers this time. To do so, first shut down the orchestra by running:
+Hook Slinger offers easy horizontal scale-up, powered by the `docker-compose scale` command. In this case, scaling up means, spawning new workers in separate containers. Let's spawn 3 worker containers this time. To do so, first shut down the orchestra by running:
 
 ```
 make stop_servers
@@ -265,7 +289,7 @@ make worker_scale n=3
 ```
 
 
-This will start the **App server**, **Redis DB**, **RQmonitor**, and three **Worker** instances. Spawning multiple worker instances are a great way to achieve job concurrency with the least amount of hassle.
+This will start the **App server**, **Redis DB**, **RQmonitor**, and 3 **Worker** instances. Spawning multiple worker instances are a great way to achieve job concurrency with the least amount of hassle.
 
 
 <div align="center">
