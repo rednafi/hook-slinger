@@ -1,4 +1,5 @@
 path := .
+n := 2
 
 define Comment
 	- Run `make help` to see all the available options.
@@ -104,3 +105,18 @@ stop_servers: ## Stop the app, worker and monitor.
 .PHONY: start_tests
 start_tests: ## Start the servers and execute the tests.
 	docker-compose -f docker-compose-ci.yml up --build -d
+
+
+.PHONY: app_logs
+app_logs: ## Explore the application server container logs.
+	docker logs wh_app -f
+
+
+.PHONY: worker_logs
+worker_logs: ## Explore the worker instance container logs.
+	docker logs hook-slinger_worker_1 -f
+
+
+.PHONY:
+worker_scale:
+	docker-compose up -d --build --scale worker=$(n)

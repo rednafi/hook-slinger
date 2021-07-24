@@ -12,7 +12,7 @@
 
 ### What?
 
-Hook Slinger acts as a simple service that lets you send, retry, and manage event triggered POST requests, aka webhooks. It provides a fully contained docker image that is easy to orchestrate, manage, and scale.
+Hook Slinger acts as a simple service that lets you send, retry, and manage event-triggered POST requests, aka webhooks. It provides a fully contained docker image that is easy to orchestrate, manage, and scale.
 
 ### Why?
 
@@ -22,11 +22,11 @@ Technically, a webhook is a mere POST request triggered by a system when a parti
 * Managing HTTP timeouts.
 * Retrying the requests gracefully without overloading the recipients.
 * Avoiding retry loop on the sending end.
-* Monitoring and providing a scope for manual interventions.
+* Monitoring and providing scope for manual interventions.
 * Scaling them quickly; either vertically or horizontally.
 * Decoupling webhook management logic from your primary app logic.
 
-Properly dealing with these concerns can be cumbersome; especially when sending webhook is just another small part of your application and you just want it to work without you having to deal with all the hairy details every time. Hook Slinger aims to alleviate this pain point.
+Properly dealing with these concerns can be cumbersome; especially when sending webhooks is just another small part of your application and you just want it to work without you having to deal with all the hairy details every time. Hook Slinger aims to alleviate this pain point.
 
 ### How?
 
@@ -40,13 +40,13 @@ The simplified app architecture looks something this:
 
 ![Topology](./art/topology.png)
 
-In the above image, the webhook payload is first sent to the `app` and the `app` uses the `worker` instance to actually make the POST request. The Redis DB is used for fast bookkeeping and async message queue implementation. The `monitor` instance provides a GUI to monitor and manage the webhooks. Multiple `worker` instances can be spawned to achieve linear horizontal scale ups.
+In the above image, the webhook payload is first sent to the `app` and the `app` uses the `worker` instance to make the POST request. The Redis DB is used for fast bookkeeping and async message queue implementation. The `monitor` instance provides a GUI to monitor and manage the webhooks. Multiple `worker` instances can be spawned to achieve linear horizontal scale-up.
 
 ## Installation
 
 * Make sure you've got [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) installed in your system.
 
-* Clone the repositiory and head over to the root directory.
+* Clone the repository and head over to the root directory.
 
 * To start the orchestra, run:
 
@@ -56,7 +56,7 @@ In the above image, the webhook payload is first sent to the `app` and the `app`
     This will:
     * Start an `app` server that exposes port `5000`.
 
-    * Start an Alpine based Redis server that opens port `6380`.
+    * Start an Alpine-based Redis server that opens port `6380`.
 
     * Start a single `worker` that will carry out the actual tasks.
 
@@ -68,13 +68,13 @@ In the above image, the webhook payload is first sent to the `app` and the `app`
     make stop_servers
     ```
 
-*TODO: Generalize it more before making installable with a `docker pull` command.*
+*TODO: Generalize it more before making it installable with a `docker pull` command.*
 
 ## Usage
 
 ### Exploring the Interactive API Docs
 
-To tryout the entire workflow interactively, head over to the following URL in your browser:
+To try out the entire workflow interactively, head over to the following URL in your browser:
 
 ```
 http://localhost:5000/docs
@@ -84,11 +84,11 @@ You should see a panel like this:
 
 ![API Docs](./art/api_docs.png)
 
-This app implements a rudimentary token based authentication system where you're expected to send an API token by adding `Authorization: Token <token_value>` field to your request header. To do that here, click the `POST /hook_slinger/` ribbon and that will reveal the API description like this:
+This app implements a rudimentary token-based authentication system where you're expected to send an API token by adding `Authorization: Token <token_value>` field to your request header. To do that here, click the `POST /hook_slinger/` ribbon and that will reveal the API description like this:
 
 ![API Description](./art/api_descr.png)
 
-Copy the default token value from description corpus, then click the green button on the top right that says **Authorize** and paste the value in the prompt box. Click **Authorize** button again and that'll conclude the login step. In your production application, you should implement a robust auth system or at least change this default token.
+Copy the default token value from the description corpus, then click the green button on the top right that says **Authorize** and paste the value in the prompt box. Click the **Authorize** button again and that'll conclude the login step. In your production application, you should implement a robust auth system or at least change this default token.
 
 To send a webhook, you'll need a URL where you'll be able to make the POST request. For this demonstration, let's pick [this](https://webhook.site/) service to monitor the received webhooks. It gives you a unique URL against which you'll be able to make the post requests and monitor them in a dashboard like this:
 
@@ -113,7 +113,7 @@ Now, if you head over to the [webhook site](https://webhook.site/#!/37ad9530-59c
 
 ![API Response](./art/api_response_2.png)
 
-In order to monitor the webhook tasks, head over to the following URL:
+To monitor the webhook tasks, head over to the following URL:
 
 ```
 http://localhost:8899/
@@ -215,7 +215,7 @@ asyncio.run(send_webhook())
 
 ```
 
-This should return similar payload as before:
+This should return a similar response as before:
 
 ```
 {
@@ -229,10 +229,43 @@ This should return similar payload as before:
 
 ### Exploring the Container Logs
 
+Hook Slinger overloads the Python root logger to give you a colorized and user-friendly logging experience. To explore the logging messages of the application server, run:
+
+```
+make app_logs
+```
+
+Notice the colorful logs cascading down from the app server:
+
+![App Logs](./art/app_logs.png)
+
+Now, to explore the worker instance logs, in a separate terminal, run:
+
+```
+make worker_logs
+```
+
+You should see something like this:
+
+![Worker Logs](./art/worker_logs.png)
 
 
+### Scaling Up the Service
+
+Hook Slinger offers easy horizontal scale-ups, powered by the `docker-compose scale` command. In this case, scaling up means, spawning new workers in separate containers. Let's spawn 2 worker containers this time. To do so, first shut down the orchestra by running:
+
+```
+make stop_servers
+```
+
+Now, run:
+
+```
+make worker_scale n=3
+```
 
 
+This will start the **App server**, **Redis DB**, **RQmonitor**, and three **Worker** instances. Spawning multiple worker instances are a great way to achieve job concurrency with the least amount of hassle.
 
 
 <div align="center">
