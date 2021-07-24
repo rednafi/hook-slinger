@@ -276,7 +276,7 @@ You should see something like this:
 
 ### Scaling Up the Service
 
-Hook Slinger offers easy horizontal scale-up, powered by the `docker-compose scale` command. In this case, scaling up means, spawning new workers in separate containers. Let's spawn 3 worker containers this time. To do so, first shut down the orchestra by running:
+Hook Slinger offers easy horizontal scale-up, powered by the `docker-compose --scale` command. In this case, scaling up means, spawning new workers in separate containers. Let's spawn 3 worker containers this time. To do so, first shut down the orchestra by running:
 
 ```
 make stop_servers
