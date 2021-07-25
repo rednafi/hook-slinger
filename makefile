@@ -83,7 +83,7 @@ create_topology: ## Creates topology diagram from docker compose file.
 	@docker run \
 	--rm -it \
 	--name dcv \
-	-v /home/rednafi/workspace/personal/hook-slinger:/input pmsipilot/docker-compose-viz \
+	-v .:/input pmsipilot/docker-compose-viz \
 	render -m image \
 	--force docker-compose.yml \
 	--output-file=topology.png \
