@@ -20,8 +20,8 @@
 * [Installation](#installation)
 * [Usage](#usage)
   * [Exploring the Interactive API Docs](#exploring-the-interactive-api-docs)
-* [Sending A Webhook Via cURL](#sending-a-webhook-via-curl)
-* [Sending A Webhook Via Python](#sending-a-webhook-via-python)
+  * [Sending A Webhook Via cURL](#sending-a-webhook-via-curl)
+  * [Sending A Webhook Via Python](#sending-a-webhook-via-python)
   * [Exploring the Container Logs](#exploring-the-container-logs)
   * [Scaling Up the Service](#scaling-up-the-service)
 
