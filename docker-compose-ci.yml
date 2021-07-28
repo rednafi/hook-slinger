@@ -69,10 +69,10 @@ services:
         pip install -r requirements-dev.txt
         black . --check
         isort . --check
-        pytest tests/test_integration -s -v
+        pytest -s -v
 
     volumes:
-      - ./app:/code/app
+      - ./:/code/
 
     env_file:
         - ".env"
