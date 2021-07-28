@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,8 +18,7 @@ jobs:
           pip install docker-compose
           make start_tests
 
-      - name: Check Running Containers
-          run: docker ps -a
 
-      - name: Check Test
-          run: docker logs -f hook-slinger_test_1
+      - name: Check Test Log
+          run: |
+            docker logs -f hook-slinger_test_1
