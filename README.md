@@ -24,7 +24,6 @@
   * [Sending A Webhook Via Python](#sending-a-webhook-via-python)
   * [Exploring the Container Logs](#exploring-the-container-logs)
   * [Scaling Up the Service](#scaling-up-the-service)
-
 * [Philosphy & Limitations](#philosophy--limitations)
 
 ## Description
