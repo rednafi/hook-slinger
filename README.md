@@ -20,11 +20,12 @@
 * [Installation](#installation)
 * [Usage](#usage)
   * [Exploring the Interactive API Docs](#exploring-the-interactive-api-docs)
-* [Sending A Webhook Via cURL](#sending-a-webhook-via-curl)
-* [Sending A Webhook Via Python](#sending-a-webhook-via-python)
+  * [Sending A Webhook Via cURL](#sending-a-webhook-via-curl)
+  * [Sending A Webhook Via Python](#sending-a-webhook-via-python)
   * [Exploring the Container Logs](#exploring-the-container-logs)
   * [Scaling Up the Service](#scaling-up-the-service)
 
+* [Philosphy & Limitations](#philosophy-&-limitations)
 
 ## Description
 
@@ -294,6 +295,11 @@ make worker_scale n=3
 
 
 This will start the **App server**, **Redis DB**, **RQmonitor**, and 3 **Worker** instances. Spawning multiple worker instances are a great way to achieve job concurrency with the least amount of hassle.
+
+
+## Philosophy & Limitations
+
+Hooks Slinger is designed to be simple, transparent, upgradable, and easily extensible to cater to your specific needs. It's not built around AMQP compliant message queues with all the niceties and complexities that come with them—this is intentional. Also, if you scrutinize the end-to-end workflow, you'll notice that it requires making HTTP requests from the sending service to the Hook Slinger. This inevitably adds another point of failure. However, from the sending service's POV, it's sending the HTTP requests to a single service, and the target service is responsible for fanning out the webhooks to the destinations. The developers are expected to have control over both services, which theoretically should mitigate the failures. The goal is to transfer some of the code complexity around managing webhooks from the sending service over to the Hook Slinger. Also, I'm playing around with some of the alternatives to using HTTP POST requests to send the payloads from the sending end to the Hook Slinger. Suggestions are always appreciated.
 
 
 <div align="center">
