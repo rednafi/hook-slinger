@@ -161,7 +161,7 @@ The **Jobs** panel lists all the tasks, and from there you'll be able to requeue
 ![RQ Monitor](./art/rq_monitor_3.png)
 
 
-## Sending A Webhook Via cURL
+### Sending A Webhook Via cURL
 
 Run the following command on your terminal; this assumes that you haven't changed the auth token (you should):
 
@@ -194,7 +194,7 @@ You should expect the following output:
 }
 ```
 
-## Sending A Webhook Via Python
+### Sending A Webhook Via Python
 
 For this purpose, you can use an HTTP library like [httpx](https://www.python-httpx.org).
 
