@@ -42,7 +42,7 @@ pydantic==1.8.2
     # via fastapi
 pygments==2.9.0
     # via rich
-python-dotenv==0.18.0
+python-dotenv==0.19.0
     # via -r requirements.in
 redis==3.5.3
     # via
