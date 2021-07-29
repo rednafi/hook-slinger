@@ -1,30 +1,18 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import Enum
 from http import HTTPStatus
 from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, Security
 from fastapi.security import APIKeyHeader
 from pydantic import BaseModel
+from rq.job import JobStatus
 from starlette.exceptions import HTTPException
 
 import config
 
 from .services import send_webhook, validate_url
-
-
-class JobStatus(str, Enum):
-    """RQ job status, shamelessly copied from the RQ source."""
-
-    QUEUED = "queued"
-    FINISHED = "finished"
-    FAILED = "failed"
-    STARTED = "started"
-    DEFERRED = "deferred"
-    SCHEDULED = "scheduled"
-    STOPPED = "stopped"
 
 
 class SlingerRequestPayload(BaseModel):

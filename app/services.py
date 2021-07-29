@@ -21,6 +21,11 @@ if typing.TYPE_CHECKING:
 __all__ = ("send_webhook", "validate_url")
 
 
+class WebhookPostFailedError(Exception):
+    """Raises this when sending the webhook post request fails due to
+    some HTTP error."""
+
+
 def validate_url(url: str) -> str | NoReturn:
     # This was shamelessly copied from old Django source code.
     # https://github.com/django/django/blob/stable/1.3.x/django/core/validators.py#L45
@@ -65,7 +70,11 @@ def send_post_request(webhook_payload: SlingerRequestPayload) -> NoReturn:
         )
 
         if not response.status_code == HTTPStatus.OK:
-            raise ValueError("HTTP error occurred.")
+            raise WebhookPostFailedError(
+                f"Sending webhook failed.\n"
+                f"to_url: {to_url}\n"
+                f"payload: {payload}\n"
+            )
 
 
 redis_conn = redis.Redis.from_url(config.REDIS_URL)
