@@ -119,4 +119,4 @@ worker_logs: ## Explore the worker instance container logs.
 
 .PHONY:
 worker_scale:
-	docker-compose up -d --build --scale worker=$(n)
+	docker-compose up --build --scale worker=$(n)

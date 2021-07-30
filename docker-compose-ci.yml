@@ -69,7 +69,7 @@ services:
         pip install -r requirements-dev.txt
         black . --check
         isort . --check
-        pytest -s -v
+        pytest tests/test_integration -s -v
 
     volumes:
       - ./app:/code/app
