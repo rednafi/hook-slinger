@@ -50,7 +50,7 @@ redis==3.5.3
     #   rq
 rfc3986[idna2008]==1.5.0
     # via httpx
-rich==10.6.0
+rich==10.7.0
     # via -r requirements.in
 rq==1.9.0
     # via -r requirements.in

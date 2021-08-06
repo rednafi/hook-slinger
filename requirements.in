@@ -6,4 +6,4 @@ toml==0.10.2
 redis==3.5.3
 python-dotenv==0.19.0
 setproctitle==1.2.2
-rich==10.6.0
+rich==10.7.0
