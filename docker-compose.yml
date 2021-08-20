@@ -47,7 +47,6 @@ services:
     entrypoint: ["/bin/sh","-c"]
     command:
       - |
-        pip install rqmonitor==1.0.4
         rqmonitor -b monitor -p 8899 -u ${REDIS_URL}
 
     volumes:
