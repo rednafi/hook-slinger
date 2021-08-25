@@ -33,7 +33,7 @@ cryptography==3.4.7
     # via paramiko
 fabric==2.6.0
     # via rqmonitor
-fastapi==0.68.0
+fastapi==0.68.1
     # via -r requirements.in
 flask==2.0.1
     # via rqmonitor
