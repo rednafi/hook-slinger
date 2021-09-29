@@ -23,3 +23,7 @@ pretty = true
 [[tool.mypy.overrides]]
 module = "tests.*"
 ignore_errors = true
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers"
+markers = "dummy: useless dummy tests"
