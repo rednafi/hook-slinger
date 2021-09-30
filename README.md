@@ -136,7 +136,7 @@ Notice that the section is prefilled with an example request payload. You can us
 
 ![API Response](./art/api_response.png)
 
-Now, if you head over to the [webhook site](https://webhook.site/#!/37ad9530-59c3-430d-9db6-e68317321a9f/7c9b390a-4546-4b42-8472-9adee9bb3568/1) URL, you should be able to see your API payload:
+Now, if you head over to the [webhook site](https://webhook.site/#!/f864d28d-9162-4ad5-9205-458e2b561c07) URL, you should be able to see your API payload:
 
 
 ![API Response](./art/api_response_2.png)
@@ -172,7 +172,7 @@ curl -X 'POST' \
   -H 'Authorization: Token $5$1O/inyTZhNvFt.GW$Zfckz9OL.lm2wh3IewTm8YJ914wjz5txFnXG5XW.wb4' \
   -H 'Content-Type: application/json' \
   -d '{
-  "to_url": "https://webhook.site/37ad9530-59c3-430d-9db6-e68317321a9f",
+  "to_url": "https://webhook.site/f864d28d-9162-4ad5-9205-458e2b561c07",
   "to_auth": "",
   "tag": "Dhaka",
   "group": "Bangladesh",
@@ -212,7 +212,7 @@ import httpx
 async def send_webhook() -> None:
 
     wh_payload = {
-        "to_url": "https://webhook.site/aa7e2e7e-a62d-4505-8879-13bd806da6d5",
+        "to_url": "https://webhook.site/f864d28d-9162-4ad5-9205-458e2b561c07",
         "to_auth": "",
         "tag": "Dhaka",
         "group": "Bangladesh",
