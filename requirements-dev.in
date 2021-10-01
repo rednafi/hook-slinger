@@ -5,3 +5,4 @@ mypy
 pip-tools
 types-redis
 pytest
+pytest-asyncio
