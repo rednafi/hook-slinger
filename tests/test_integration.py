@@ -22,8 +22,8 @@ def test_webhook_throw():
     # Payload that is sent from the sending service to Hook Slinger.
     # Here, the 'test_webhook_throw' function acts as the service that sends
     # the webhook payload to the Hook Slinger container.
-    wh_payload = {
-        "to_url": "https://webhook.site/37ad9530-59c3-430d-9db6-e68317321a9f",
+    webhook_request = {
+        "to_url": "https://webhook.site/f864d28d-9162-4ad5-9205-458e2b561c07",
         "to_auth": "",
         "tag": "Dhaka",
         "group": "Bangladesh",
@@ -40,7 +40,7 @@ def test_webhook_throw():
         response = session.post(
             "http://app:5000/hook_slinger",
             headers=headers,
-            json=wh_payload,
+            json=webhook_request,
         )
 
         # Inspecting the HTTP response status code.
@@ -58,7 +58,11 @@ def test_webhook_throw():
         job = Job.fetch(job_id, connection=redis_conn)
         maybe_queued = job.get_status()
 
-        assert maybe_queued == JobStatus.QUEUED
+        assert maybe_queued in (
+            JobStatus.QUEUED,
+            JobStatus.STARTED,
+            JobStatus.SCHEDULED,
+        )
         logging.info(f"Got the expected Job Status: {maybe_queued}\n")
 
         # This section polls the Redis server 10 times with 1 second interval
