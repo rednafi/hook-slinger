@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 import httpx
 import pytest
@@ -64,7 +64,10 @@ def test_send_post_request(mock_post):
     }
 
     webhook_payload = views.SlingerRequestPayload(**webhook_request)
-    mock_post.return_value = Mock()  # Mock(spec=app.services.httpx.Response)
+    mock_post.return_value = httpx.Response(
+        status_code=HTTPStatus.OK,
+        json=webhook_request,
+    )
     mock_post.return_value.status_code = HTTPStatus.OK
 
     assert services.send_post_request(webhook_payload=webhook_payload) is None
