@@ -51,7 +51,7 @@ def test_validate_url():
     assert services.validate_url("https://google.com") == "https://google.com"
 
 
-@patch("app.services.httpx.Client.post")
+@patch("app.services.httpx.Client.post", autospec=True)
 def test_send_post_request(mock_post):
     webhook_request = {
         "to_url": "https://webhook.site/37ad9530-59c3-430d-9db6-e68317321a9f",
@@ -91,7 +91,7 @@ def test_redis_queue(mock_redis_queue):
     assert mock_redis_queue() == 42
 
 
-@patch("app.services.send_webhook")
+@patch("app.services.send_webhook", autospec=True)
 def test_send_webhook(mock_send_webhook):
     webhook_request = {
         "to_url": "https://webhook.site/37ad9530-59c3-430d-9db6-e68317321a9f",

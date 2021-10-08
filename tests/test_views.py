@@ -75,7 +75,7 @@ async def test_secret_based_security(header_param, return_value):
 
 
 @pytest.mark.dummy
-@patch("httpx.Client.post")
+@patch("httpx.Client.post", autospec=True)
 def test_hook_slinger_view(mock_post):
 
     # Define HTTP request attributes
