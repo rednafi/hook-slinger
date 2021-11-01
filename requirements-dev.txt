@@ -6,7 +6,7 @@
 #
 attrs==21.2.0
     # via pytest
-black==21.9b0
+black==21.10b0
     # via -r requirements-dev.in
 click==8.0.1
     # via
