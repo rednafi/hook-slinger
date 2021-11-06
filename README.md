@@ -70,7 +70,7 @@ In the above image, the webhook payload is first sent to the `app` and the `app`
 
 ## Installation
 
-* Make sure you've got [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) installed in your system.
+* Make sure you've got [Docker](https://www.docker.com/) and [Docker Compose V2](https://docs.docker.com/compose/cli-command/) installed in your system.
 
 * Clone the repository and head over to the root directory.
 
@@ -172,7 +172,7 @@ curl -X 'POST' \
   -H 'Authorization: Token $5$1O/inyTZhNvFt.GW$Zfckz9OL.lm2wh3IewTm8YJ914wjz5txFnXG5XW.wb4' \
   -H 'Content-Type: application/json' \
   -d '{
-  "to_url": "https://webhook.site/f864d28d-9162-4ad5-9205-458e2b561c07",
+  "to_url": "https://webhook.site/37ad9530-59c3-430d-9db6-e68317321a9f",
   "to_auth": "",
   "tag": "Dhaka",
   "group": "Bangladesh",
@@ -190,7 +190,7 @@ You should expect the following output:
     "ok": true,
     "message": "Webhook registration successful.",
     "job_id": "Bangladesh_Dhaka_a07ca786-0b7a-4029-bac0-9a7c6eb68a98",
-    "queued_at": "2021-07-23T20:15:04.389690"
+    "queued_at": "2021-11-06T16:54:54.728999"
 }
 ```
 
@@ -201,7 +201,6 @@ For this purpose, you can use an HTTP library like [httpx](https://www.python-ht
 Make the request with the following script:
 
 ```python
-
 import asyncio
 from http import HTTPStatus
 from pprint import pprint
@@ -231,16 +230,17 @@ async def send_webhook() -> None:
             "http://localhost:5000/hook_slinger",
             headers=headers,
             json=wh_payload,
+            follow_redirects=True,
         )
 
         # Hook Slinger returns http code 202, accepted, for a successful request.
-        if response.status_code == HTTPStatus.ACCEPTED:
-            result = response.json()
-            pprint(result)
+        assert response.status_code == HTTPStatus.ACCEPTED
+        result = response.json()
+        pprint(result)
 
 
-asyncio.run(send_webhook())
-
+if __name__ == "__main__":
+    asyncio.run(send_webhook())
 ```
 
 This should return a similar response as before:
@@ -295,6 +295,22 @@ make worker_scale n=3
 
 This will start the **App server**, **Redis DB**, **RQmonitor**, and 3 **Worker** instances. Spawning multiple worker instances are a great way to achieve job concurrency with the least amount of hassle.
 
+## Troubleshooting
+
+On the Rqmonitor dashboard, if you see that your webhooks aren't reaching the destination, make sure that the destination URL in the webhook payload can accept the POST requests sent by the workers. Your webhook payload looks like this:
+
+```
+{
+    "to_url": "https://webhook.site/f864d28d-9162-4ad5-9205-458e2b561c07",
+    "to_auth": "",
+    "tag": "Dhaka",
+    "group": "Bangladesh",
+    "payload": {"greetings": "Hello, world!"},
+}
+
+```
+
+Here, `to_url` must be able to receive the payloads and return HTTP code 201.
 
 ## Philosophy & Limitations
 

@@ -93,18 +93,18 @@ create_topology: ## Creates topology diagram from docker compose file.
 
 .PHONY: start_servers
 start_servers: ## Start the app, worker and monitor.
-	docker-compose up --build -d
+	docker compose up --build -d
 
 
 .PHONY: stop_servers
 stop_servers: ## Stop the app, worker and monitor.
 	docker system prune
-	docker-compose down -t 1
+	docker compose down -t 1
 
 
 .PHONY: start_tests
 start_tests: ## Start the servers and execute the tests.
-	docker-compose -f docker-compose-ci.yml up --build -d
+	docker compose -f docker-compose-ci.yml up --build -d
 
 
 .PHONY: app_logs
@@ -119,4 +119,4 @@ worker_logs: ## Explore the worker instance container logs.
 
 .PHONY:
 worker_scale:
-	docker-compose up -d --build --scale worker=$(n)
+	docker compose up -d --build --scale worker=$(n)
