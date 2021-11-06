@@ -17,6 +17,10 @@ API_TOKEN: str = os.environ.get(
     "API_TOKEN", "$5$1O/inyTZhNvFt.GW$Zfckz9OL.lm2wh3IewTm8YJ914wjz5txFnXG5XW.wb4"
 )
 
+print("=" * 40)
+print(f"{API_TOKEN=}")
+print("=" * 40)
+
 # Retry parameters.
 MAX_RETRIES: int = int(os.environ.get("MAX_RETRIES", 3))
 INTERVAL: int = int(os.environ.get("INTERVAL", 5))

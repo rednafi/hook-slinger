@@ -73,7 +73,7 @@ def send_post_request(webhook_payload: SlingerRequestPayload) -> NoReturn:
             raise WebhookPostFailedError(
                 f"Sending webhook failed.\n"
                 f"to_url: {to_url}\n"
-                f"payload: {payload}\n"
+                f"payload: {payload}\n, code: {response.status_code}"
             )
 
 
