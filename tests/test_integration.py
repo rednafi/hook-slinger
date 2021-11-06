@@ -41,6 +41,7 @@ def test_webhook_throw():
             "http://app:5000/hook_slinger",
             headers=headers,
             json=webhook_request,
+            follow_redirects=True,
         )
 
         # Inspecting the HTTP response status code.

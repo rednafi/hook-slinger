@@ -1,6 +1,7 @@
-name: Hook Slinger Build & Test
-
 on:
+  schedule:
+    - cron: "0 13 * * *" # Everyday at 1PM UTC.
+
   push:
     branches:
       - main
@@ -10,14 +11,35 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Run the Linters, Build the Containers & Run the Tests
-      run: |
-        pip install docker-compose
-        make start_tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.8", "3.9", "3.10"]
 
-    - name: Check Test Log
-      run: |
-        docker logs -f hook-slinger_test_1
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install the test dependencies
+        run: |
+          echo "Upgrading pip ...."
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Check linter
+        run: |
+          echo "Checking black formatting..."
+          python3 -m black --check .
+          echo "Checking isort formatting..."
+          python3 -m isort --check .
+          echo "Checking flake8 formatting..."
+          python3 -m flake8 .
+
+      - name: Run the tests
+        run: |
+          export PYTHONWARNINGS="ignore" && pytest -v -s -k 'not integration'
