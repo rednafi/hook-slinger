@@ -295,7 +295,7 @@ make worker_scale n=3
 
 This will start the **App server**, **Redis DB**, **RQmonitor**, and 3 **Worker** instances. Spawning multiple worker instances are a great way to achieve job concurrency with the least amount of hassle.
 
-## Troubleshooting
+### Troubleshooting
 
 On the Rqmonitor dashboard, if you see that your webhooks aren't reaching the destination, make sure that the destination URL in the webhook payload can accept the POST requests sent by the workers. Your webhook payload looks like this:
 
