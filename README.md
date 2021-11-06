@@ -209,7 +209,6 @@ import httpx
 
 
 async def send_webhook() -> None:
-
     wh_payload = {
         "to_url": "https://webhook.site/f864d28d-9162-4ad5-9205-458e2b561c07",
         "to_auth": "",
