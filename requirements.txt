@@ -13,7 +13,9 @@ asgiref==3.4.1
 bcrypt==3.2.0
     # via paramiko
 certifi==2021.5.30
-    # via httpx
+    # via
+    #   httpcore
+    #   httpx
 cffi==1.14.6
     # via
     #   bcrypt
@@ -49,9 +51,9 @@ h2==3.2.0
     # via httpx
 hpack==3.0.0
     # via h2
-httpcore==0.13.6
+httpcore==0.14.1
     # via httpx
-httpx[http2]==0.20.0
+httpx[http2]==0.21.0
     # via -r requirements.in
 humanize==3.11.0
     # via rqmonitor
