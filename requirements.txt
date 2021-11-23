@@ -87,7 +87,7 @@ pynacl==1.4.0
     # via paramiko
 python-dotenv==0.19.2
     # via -r requirements.in
-redis==4.0.1
+redis==4.0.2
     # via
     #   -r requirements.in
     #   rq
