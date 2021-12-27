@@ -4,11 +4,12 @@
 #
 #    pip-compile --output-file=requirements-dev.txt requirements-dev.in
 #
+
 attrs==21.2.0
     # via pytest
 black==21.12b0
     # via -r requirements-dev.in
-click==8.0.1
+click==8.0.3
     # via
     #   black
     #   pip-tools
@@ -30,21 +31,21 @@ packaging==21.3
     # via pytest
 pathspec==0.9.0
     # via black
-pep517==0.11.0
+pep517==0.12.0
     # via pip-tools
 pip-tools==6.4.0
     # via -r requirements-dev.in
-platformdirs==2.2.0
+platformdirs==2.4.1
     # via black
-pluggy==0.13.1
+pluggy==1.0.0
     # via pytest
-py==1.10.0
+py==1.11.0
     # via pytest
 pycodestyle==2.8.0
     # via flake8
 pyflakes==2.4.0
     # via flake8
-pyparsing==2.4.7
+pyparsing==3.0.6
     # via packaging
 pytest==6.2.5
     # via
@@ -61,11 +62,11 @@ tomli==1.2.3
     #   pep517
 types-redis==4.0.6
     # via -r requirements-dev.in
-typing-extensions==3.10.0.0
+typing-extensions==4.0.1
     # via
     #   black
     #   mypy
-wheel==0.36.2
+wheel==0.37.1
     # via pip-tools
 
 # The following packages are considered to be unsafe in a requirements file:
