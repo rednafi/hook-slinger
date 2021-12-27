@@ -73,6 +73,8 @@ jinja2==3.0.1
     # via flask
 markupsafe==2.0.1
     # via jinja2
+packaging==21.3
+    # via redis
 paramiko==2.7.2
     # via fabric
 pathlib2==2.3.6
@@ -85,9 +87,11 @@ pygments==2.9.0
     # via rich
 pynacl==1.4.0
     # via paramiko
+pyparsing==3.0.6
+    # via packaging
 python-dotenv==0.19.2
     # via -r requirements.in
-redis==4.0.2
+redis==4.1.0
     # via
     #   -r requirements.in
     #   rq
