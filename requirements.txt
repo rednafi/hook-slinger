@@ -4,7 +4,6 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-
 anyio==3.2.1
     # via
     #   httpcore
@@ -24,7 +23,7 @@ cffi==1.14.6
     #   pynacl
 charset-normalizer==2.0.4
     # via httpx
-click==8.0.1
+click==8.0.3
     # via
     #   flask
     #   rq
