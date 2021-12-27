@@ -4,7 +4,8 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-anyio==3.2.1
+
+anyio==3.4.0
     # via
     #   httpcore
     #   starlette
@@ -12,16 +13,16 @@ asgiref==3.4.1
     # via uvicorn
 bcrypt==3.2.0
     # via paramiko
-certifi==2021.5.30
+certifi==2021.10.8
     # via
     #   httpcore
     #   httpx
-cffi==1.14.6
+cffi==1.15.0
     # via
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.4
+charset-normalizer==2.0.9
     # via httpx
 click==8.0.3
     # via
@@ -33,7 +34,7 @@ colorama==0.4.4
     # via rich
 commonmark==0.9.1
     # via rich
-cryptography==3.4.7
+cryptography==36.0.1
     # via paramiko
 deprecated==1.2.13
     # via redis
@@ -41,25 +42,25 @@ fabric==2.6.0
     # via rqmonitor
 fastapi==0.70.1
     # via -r requirements.in
-flask==2.0.1
+flask==2.0.2
     # via rqmonitor
 h11==0.12.0
     # via
     #   httpcore
     #   uvicorn
-h2==3.2.0
+h2==4.1.0
     # via httpx
-hpack==3.0.0
+hpack==4.0.0
     # via h2
-httpcore==0.14.1
+httpcore==0.14.3
     # via httpx
 httpx[http2]==0.21.1
     # via -r requirements.in
-humanize==3.11.0
+humanize==3.13.1
     # via rqmonitor
-hyperframe==5.2.0
+hyperframe==6.0.1
     # via h2
-idna==3.2
+idna==3.3
     # via
     #   anyio
     #   rfc3986
@@ -69,21 +70,21 @@ invoke==1.6.0
     #   rqmonitor
 itsdangerous==2.0.1
     # via flask
-jinja2==3.0.1
+jinja2==3.0.3
     # via flask
 markupsafe==2.0.1
     # via jinja2
 packaging==21.3
     # via redis
-paramiko==2.7.2
+paramiko==2.9.1
     # via fabric
 pathlib2==2.3.6
     # via fabric
-pycparser==2.20
+pycparser==2.21
     # via cffi
 pydantic==1.8.2
     # via fastapi
-pygments==2.9.0
+pygments==2.10.0
     # via rich
 pynacl==1.4.0
     # via paramiko
@@ -123,16 +124,13 @@ starlette==0.16.0
     # via fastapi
 toml==0.10.2
     # via -r requirements.in
-typing-extensions==3.10.0.0
+typing-extensions==4.0.1
     # via pydantic
 uvicorn==0.16.0
     # via -r requirements.in
-werkzeug==2.0.1
+werkzeug==2.0.2
     # via
     #   flask
     #   rqmonitor
 wrapt==1.13.3
     # via deprecated
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
