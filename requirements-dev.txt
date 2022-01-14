@@ -59,7 +59,7 @@ tomli==1.2.3
     #   black
     #   mypy
     #   pep517
-types-redis==4.1.7
+types-redis==4.1.8
     # via -r requirements-dev.in
 typing-extensions==4.0.1
     # via
