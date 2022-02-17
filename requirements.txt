@@ -91,7 +91,7 @@ pyparsing==3.0.6
     # via packaging
 python-dotenv==0.19.2
     # via -r requirements.in
-redis==4.1.3
+redis==4.1.4
     # via
     #   -r requirements.in
     #   rq
