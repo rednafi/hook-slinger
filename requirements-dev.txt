@@ -58,7 +58,7 @@ tomli==1.2.3
     #   mypy
     #   pep517
     #   pytest
-types-redis==4.1.15
+types-redis==4.1.16
     # via -r requirements-dev.in
 typing-extensions==4.0.1
     # via mypy
