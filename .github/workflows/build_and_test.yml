@@ -9,37 +9,52 @@ on:
     branches:
       - main
 
+# If you trigger a new workflow while the previous one is running,
+# this will cancel the previous one.
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
+      # Use matrix strategy to run the tests on multiple Py versions on multiple OSs.
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: ["3.9", "3.10"]
+        python-version: ["3.8", "3.9", "3.10"]
+        include:
+        - os: ubuntu-latest
+          path: ~/.cache/pip
+        - os: macos-latest
+          path: ~/Library/Caches/pip
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install the test dependencies
-        run: |
-          echo "Upgrading pip ...."
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt -r requirements-dev.txt
+      - uses: actions/cache@v3
+        with:
+          path: ${{ matrix.path }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}-${{ hashFiles('**/requirements-dev.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
-      - name: Check linter
+      - name: Install the Dependencies
         run: |
-          echo "Checking black formatting..."
-          python3 -m black --check .
-          echo "Checking isort formatting..."
-          python3 -m isort --check .
-          echo "Checking flake8 formatting..."
-          python3 -m flake8 .
+          echo "Installing the dependencies..."
+          python -m pip install -r requirements.txt
+          python -m pip install -r requirements-dev.txt
 
-      - name: Run the tests
+      - name: Check Linter
         run: |
+          echo "Checking linter formatting..."
+          make lint-check
+
+      - name: Run Tests
+        run: |
+          echo "Running the tests..."
           export PYTHONWARNINGS="ignore" && pytest -v -s -k 'not integration'

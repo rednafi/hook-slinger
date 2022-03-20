@@ -11,21 +11,6 @@
 </div>
 
 
-## Table of Contents
-
-* [Description](#description)
-  * [What?](#what)
-  * [Why?](#why)
-  * [How?](#how)
-* [Installation](#installation)
-* [Usage](#usage)
-  * [Exploring the Interactive API Docs](#exploring-the-interactive-api-docs)
-  * [Sending A Webhook Via cURL](#sending-a-webhook-via-curl)
-  * [Sending A Webhook Via Python](#sending-a-webhook-via-python)
-  * [Exploring the Container Logs](#exploring-the-container-logs)
-  * [Scaling Up the Service](#scaling-up-the-service)
-* [Philosphy & Limitations](#philosophy--limitations)
-
 ## Description
 
 ### What?
@@ -77,7 +62,7 @@ In the above image, the webhook payload is first sent to the `app` and the `app`
 * To start the orchestra, run:
 
     ```
-    make start_servers
+    make start-servers
     ```
 
     This will:
@@ -93,14 +78,14 @@ In the above image, the webhook payload is first sent to the `app` and the `app`
 * To shut down everything, run:
 
     ```
-    make stop_servers
+    make stop-servers
     ```
 
 *TODO: Generalize it more before making it installable with a `docker pull` command.*
 
 ## Usage
 
-### Exploring the Interactive API Docs
+### Exploring the interactive API docs
 
 To try out the entire workflow interactively, head over to the following URL on your browser:
 
@@ -161,7 +146,7 @@ The **Jobs** panel lists all the tasks, and from there you'll be able to requeue
 ![RQ Monitor](./art/rq_monitor_3.png)
 
 
-### Sending A Webhook Via cURL
+### Sending a webhook via cURL
 
 Run the following command on your terminal; this assumes that you haven't changed the auth token (you should):
 
@@ -172,7 +157,7 @@ curl -X 'POST' \
   -H 'Authorization: Token $5$1O/inyTZhNvFt.GW$Zfckz9OL.lm2wh3IewTm8YJ914wjz5txFnXG5XW.wb4' \
   -H 'Content-Type: application/json' \
   -d '{
-  "to_url": "https://webhook.site/37ad9530-59c3-430d-9db6-e68317321a9f",
+  "to_url": "https://webhook.site/4ed6c919-a962-4a35-858b-2c5218ffb892",
   "to_auth": "",
   "tag": "Dhaka",
   "group": "Bangladesh",
@@ -194,7 +179,7 @@ You should expect the following output:
 }
 ```
 
-### Sending A Webhook Via Python
+### Sending a webhook via Python
 
 For this purpose, you can use an HTTP library like [httpx](https://www.python-httpx.org).
 
@@ -254,12 +239,12 @@ This should return a similar response as before:
 }
 ```
 
-### Exploring the Container Logs
+### Exploring the container logs
 
 Hook Slinger overloads the Python root logger to give you a colorized and user-friendly logging experience. To explore the logging messages of the application server, run:
 
 ```
-make app_logs
+make app-logs
 ```
 
 Notice the colorful logs cascading down from the app server:
@@ -269,7 +254,7 @@ Notice the colorful logs cascading down from the app server:
 Now, to explore the worker instance logs, in a separate terminal, run:
 
 ```
-make worker_logs
+make worker-logs
 ```
 
 You should see something like this:
@@ -277,18 +262,18 @@ You should see something like this:
 ![Worker Logs](./art/worker_logs.png)
 
 
-### Scaling Up the Service
+### Scaling up the service
 
 Hook Slinger offers easy horizontal scale-up, powered by the `docker-compose --scale` command. In this case, scaling up means, spawning new workers in separate containers. Let's spawn 3 worker containers this time. To do so, first shut down the orchestra by running:
 
 ```
-make stop_servers
+make stop-servers
 ```
 
 Now, run:
 
 ```
-make worker_scale n=3
+make worker-scale n=3
 ```
 
 
@@ -311,7 +296,7 @@ On the Rqmonitor dashboard, if you see that your webhooks aren't reaching the de
 
 Here, `to_url` must be able to receive the payloads and return HTTP code 201.
 
-## Philosophy & Limitations
+## Philosophy & limitations
 
 Hooks Slinger is designed to be simple, transparent, upgradable, and easily extensible to cater to your specific needs. It's not built around AMQP compliant message queues with all the niceties and complexities that come with them—this is intentional.
 

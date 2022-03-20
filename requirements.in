@@ -5,6 +5,5 @@ httpx[http2]
 toml
 redis
 python-dotenv
-setproctitle
 rich
 rqmonitor

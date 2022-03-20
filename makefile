@@ -72,14 +72,14 @@ test: ## Run the tests against the current version of Python.
 	pytest
 
 
-.PHONY: dep_lock
-dep_lock: ## Locking the dependencies with 'pip-compile' command.
-	pip-compile requirements.in -o requirements.txt && \
-	pip-compile requirements-dev.in -o requirements-dev.txt
+.PHONY: dep-lock
+dep-lock: ## Freeze deps in 'requirements.txt' file.
+	@pip-compile requirements.in -o requirements.txt --no-emit-options
+	@pip-compile requirements-dev.in -o requirements-dev.txt --no-emit-options
 
 
-.PHONY: create_topology
-create_topology: ## Creates topology diagram from docker compose file.
+.PHONY: create-topology
+create-topology: ## Creates topology diagram from docker compose file.
 	@docker run \
 	--rm -it \
 	--name dcv \
@@ -91,32 +91,32 @@ create_topology: ## Creates topology diagram from docker compose file.
 	--no-networks
 
 
-.PHONY: start_servers
-start_servers: ## Start the app, worker and monitor.
+.PHONY: start-servers
+start-servers: ## Start the app, worker and monitor.
 	docker compose up --build -d
 
 
-.PHONY: stop_servers
-stop_servers: ## Stop the app, worker and monitor.
+.PHONY: stop-servers
+stop-servers: ## Stop the app, worker and monitor.
 	docker system prune
 	docker compose down -t 1
 
 
-.PHONY: start_tests
-start_tests: ## Start the servers and execute the tests.
+.PHONY: start-tests
+start-tests: ## Start the servers and execute the tests.
 	docker compose -f docker-compose-ci.yml up --build -d
 
 
-.PHONY: app_logs
-app_logs: ## Explore the application server container logs.
+.PHONY: app-logs
+app-logs: ## Explore the application server container logs.
 	docker logs wh_app -f
 
 
-.PHONY: worker_logs
-worker_logs: ## Explore the worker instance container logs.
+.PHONY: worker-logs
+worker-logs: ## Explore the worker instance container logs.
 	docker logs hook-slinger_worker_1 -f
 
 
-.PHONY:
-worker_scale:
+.PHONY: worker-scale
+worker-scale:
 	docker compose up -d --build --scale worker=$(n)
