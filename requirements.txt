@@ -91,7 +91,7 @@ pyparsing==3.0.7
     # via packaging
 python-dotenv==0.20.0
     # via -r requirements.in
-redis==4.2.0
+redis==4.2.1
     # via
     #   -r requirements.in
     #   rq
@@ -122,9 +122,7 @@ starlette==0.17.1
 toml==0.10.2
     # via -r requirements.in
 typing-extensions==4.1.1
-    # via
-    #   pydantic
-    #   redis
+    # via pydantic
 uvicorn==0.17.6
     # via -r requirements.in
 werkzeug==2.0.3
