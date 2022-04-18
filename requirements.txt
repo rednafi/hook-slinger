@@ -39,7 +39,7 @@ deprecated==1.2.13
     # via redis
 fabric==2.6.0
     # via rqmonitor
-fastapi==0.75.1
+fastapi==0.75.2
     # via -r requirements.in
 flask==2.0.3
     # via rqmonitor
