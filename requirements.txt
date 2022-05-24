@@ -23,8 +23,6 @@ cffi==1.15.0
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.12
-    # via httpx
 click==8.0.4
     # via
     #   flask
@@ -51,9 +49,9 @@ h2==4.1.0
     # via httpx
 hpack==4.0.0
     # via h2
-httpcore==0.14.7
+httpcore==0.15.0
     # via httpx
-httpx[http2]==0.22.0
+httpx[http2]==0.23.0
     # via -r requirements.in
 humanize==4.0.0
     # via rqmonitor
