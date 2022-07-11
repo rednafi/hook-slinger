@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     if: >
       github.event.pull_request
-#       && github.event.workflow_run.conclusion == 'success'
+      && github.event.workflow_run.conclusion == 'success'
 
     steps:
       - name: Enable auto-merge for Dependabot PRs
