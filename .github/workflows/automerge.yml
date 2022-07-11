@@ -13,13 +13,13 @@ permissions:
 jobs:
   dependabot:
     runs-on: ubuntu-latest
-    if: >
-      github.event.pull_request
-      && github.event.workflow_run.conclusion == 'success'
+#     if: >
+#       github.event.pull_request
+#       && github.event.workflow_run.conclusion == 'success'
 
     steps:
       - name: Enable auto-merge for Dependabot PRs
-        run: gh pr merge --auto --merge "$PR_URL"
+        run: gh pr merge --auto --merge "$PR_URL" && echo github.event
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
