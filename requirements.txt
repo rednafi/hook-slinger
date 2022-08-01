@@ -94,7 +94,7 @@ redis==4.3.4
     #   rqmonitor
 rfc3986[idna2008]==1.5.0
     # via httpx
-rich==12.4.4
+rich==12.5.1
     # via -r requirements.in
 rq==1.10.1
     # via
