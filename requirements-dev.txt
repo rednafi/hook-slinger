@@ -6,7 +6,7 @@
 #
 attrs==21.4.0
     # via pytest
-black==22.6.0
+black==22.8.0
     # via -r requirements-dev.in
 build==0.8.0
     # via pip-tools
