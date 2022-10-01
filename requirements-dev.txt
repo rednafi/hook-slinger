@@ -62,7 +62,7 @@ tomli==2.0.1
     #   build
     #   mypy
     #   pytest
-types-redis==4.3.19
+types-redis==4.3.21
     # via -r requirements-dev.in
 typing-extensions==4.1.1
     # via mypy
