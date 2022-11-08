@@ -9,7 +9,7 @@ extend-exclude =
     .venv,
     venv
 
-extend-ignore = E203, E266, E501, W605
+extend-ignore = E203, E266, E501, W605, W503
 
 # Black's default line length.
 max-line-length = 88
