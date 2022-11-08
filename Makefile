@@ -69,7 +69,7 @@ help: ## Show this help message.
 
 .PHONY: test
 test: ## Run the tests against the current version of Python.
-	pytest
+	export PYTHONWARNINGS="ignore" && pytest -v -s -k 'not integration'
 
 
 .PHONY: dep-lock
