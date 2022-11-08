@@ -12,8 +12,6 @@ from rq import Queue, Retry
 import config
 
 if typing.TYPE_CHECKING:
-    from typing import NoReturn
-
     from rq.job import Job
 
     from .views import SlingerRequestPayload
@@ -26,7 +24,7 @@ class WebhookPostFailedError(Exception):
     some HTTP error."""
 
 
-def validate_url(url: str) -> str | NoReturn:
+def validate_url(url: str) -> str:
     # This was shamelessly copied from old Django source code.
     # https://github.com/django/django/blob/stable/1.3.x/django/core/validators.py#L45
     regex = re.compile(
@@ -45,7 +43,7 @@ def validate_url(url: str) -> str | NoReturn:
     return url
 
 
-def send_post_request(webhook_payload: SlingerRequestPayload) -> NoReturn:
+def send_post_request(webhook_payload: SlingerRequestPayload) -> None:
     to_url = webhook_payload.to_url
     to_auth = webhook_payload.to_auth
     payload = webhook_payload.payload
