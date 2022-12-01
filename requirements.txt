@@ -48,7 +48,7 @@ hpack==4.0.0
     # via h2
 httpcore==0.15.0
     # via httpx
-httpx[http2]==0.23.0
+httpx[http2]==0.23.1
     # via -r requirements.in
 humanize==4.4.0
     # via rqmonitor
