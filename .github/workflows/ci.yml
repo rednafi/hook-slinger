@@ -1,7 +1,7 @@
 name: CI
 on:
   schedule:
-    - cron: "0 0 * * 0" # At 00:00 on every Sunday.
+    - cron: "37 0 * * 0" # At 00:37 on every Sunday.
 
   push:
     branches:
@@ -25,24 +25,15 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
         python-version: ["3.9", "3.10", "3.11"]
-        include:
-        - os: ubuntu-latest
-          path: ~/.cache/pip
-        - os: macos-latest
-          path: ~/Library/Caches/pip
 
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-
-      - uses: actions/cache@v3
-        with:
-          path: ${{ matrix.path }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}-${{ hashFiles('**/requirements-dev.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          cache: 'pip'
+          cache-dependency-path: |
+            **/requirements*.txt
 
       - name: Install the Dependencies
         run: |
