@@ -51,14 +51,14 @@ def test_slinger_response_payload():
     )
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 @pytest.mark.parametrize(
-    "header_param, return_value",
-    (
+    ("header_param", "return_value"),
+    [
         ("Token $5$1O/inyTZhNvFt.GW$Zfckz9OL.lm2wh3IewTm8YJ914wjz5txFnXG5XW.wb4", True),
         ("abcd", pytest.raises(HTTPException)),
         ("dummy", pytest.raises(HTTPException)),
-    ),
+    ],
 )
 async def test_secret_based_security(header_param, return_value):
     if isinstance(return_value, bool):
@@ -74,7 +74,7 @@ async def test_secret_based_security(header_param, return_value):
             )
 
 
-@pytest.mark.dummy
+@pytest.mark.dummy()
 @patch("httpx.Client.post", autospec=True)
 def test_hook_slinger_view(mock_post):
 

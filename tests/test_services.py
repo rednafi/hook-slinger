@@ -42,10 +42,15 @@ def test_webhook_post_failed_error():
 
 
 def test_validate_url():
-    with pytest.raises(ValueError):
-        services.validate_url("https:sfsdfdsff")
-        services.validate_url("http:google.com")
-        services.validate_url("https://sfsdfdsff")
+    urls = (
+        "https:sfsdfdsff",
+        "http:google.com",
+        "https://sfsdfdsff",
+    )
+
+    for url in urls:
+        with pytest.raises(ValueError, match="Value of 'url' is not a valid URL."):
+            services.validate_url(url)
 
     assert services.validate_url("http://localhost:8000") == "http://localhost:8000"
     assert services.validate_url("https://google.com") == "https://google.com"
@@ -73,7 +78,7 @@ def test_send_post_request(mock_post):
     assert services.send_post_request(webhook_payload=webhook_payload) is None
 
 
-@pytest.mark.dummy
+@pytest.mark.dummy()
 @patch("app.services.redis_conn")
 def test_redis_conn(mock_redis_conn):
     """Dummy testing Redis connection, this doesn't do anything."""
@@ -82,7 +87,7 @@ def test_redis_conn(mock_redis_conn):
     assert mock_redis_conn() == 42
 
 
-@pytest.mark.dummy
+@pytest.mark.dummy()
 @patch("app.services.queue")
 def test_redis_queue(mock_redis_queue):
     """Dummy testing Redis queue, this doesn't do anything."""
