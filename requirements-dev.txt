@@ -18,7 +18,7 @@ flake8==5.0.4
     # via -r requirements-dev.in
 iniconfig==1.1.1
     # via pytest
-isort==5.10.1
+isort==5.11.4
     # via -r requirements-dev.in
 mccabe==0.7.0
     # via flake8
