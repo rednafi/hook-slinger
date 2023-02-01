@@ -82,7 +82,7 @@ pygments==2.14.0
     # via rich
 pynacl==1.5.0
     # via paramiko
-python-dotenv==0.21.0
+python-dotenv==0.21.1
     # via -r requirements.in
 redis==4.4.2
     # via
