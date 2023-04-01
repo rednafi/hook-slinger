@@ -50,7 +50,7 @@ pytest==7.2.1
     #   pytest-asyncio
 pytest-asyncio==0.21.0
     # via -r requirements-dev.in
-ruff==0.0.239
+ruff==0.0.260
     # via -r requirements-dev.in
 types-pyopenssl==23.0.0.2
     # via types-redis
