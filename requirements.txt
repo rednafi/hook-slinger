@@ -62,7 +62,7 @@ itsdangerous==2.1.2
     # via flask
 jinja2==3.1.2
     # via flask
-markdown-it-py==2.1.0
+markdown-it-py==2.2.0
     # via rich
 markupsafe==2.1.1
     # via
@@ -89,7 +89,7 @@ redis==4.5.4
     #   -r requirements.in
     #   rq
     #   rqmonitor
-rich==13.3.1
+rich==13.3.5
     # via -r requirements.in
 rq==1.13.0
     # via
