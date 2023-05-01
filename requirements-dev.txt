@@ -22,7 +22,7 @@ cryptography==39.0.0
     #   types-redis
 iniconfig==2.0.0
     # via pytest
-mypy==1.1.1
+mypy==1.2.0
     # via -r requirements-dev.in
 mypy-extensions==1.0.0
     # via
