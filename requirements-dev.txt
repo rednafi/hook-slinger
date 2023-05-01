@@ -4,7 +4,7 @@
 #
 #    pip-compile --no-emit-options --output-file=requirements-dev.txt requirements-dev.in
 #
-black==22.12.0
+black==23.3.0
     # via -r requirements-dev.in
 build==0.9.0
     # via pip-tools
@@ -28,6 +28,7 @@ mypy-extensions==1.0.0
     #   mypy
 packaging==23.0
     # via
+    #   black
     #   build
     #   pytest
 pathspec==0.10.3
