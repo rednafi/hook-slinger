@@ -5,10 +5,6 @@
 
 <strong>>> <i>A generic service to send, retry, and manage webhooks.</i> <<</strong>
 
-[![forthebadge][black-magic-badge]][forthebadge]
-[![forthebadge][build-with-love-badge]][forthebadge]
-[![forthebadge][made-with-python-badge]][forthebadge]
-
 </div>
 
 ## Description
