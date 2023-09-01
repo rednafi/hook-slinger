@@ -52,7 +52,7 @@ ruff==0.0.281
     # via -r requirements-dev.in
 types-pyopenssl==23.0.0.2
     # via types-redis
-types-redis==4.6.0.3
+types-redis==4.6.0.5
     # via -r requirements-dev.in
 typing-extensions==4.4.0
     # via mypy
