@@ -4,8 +4,9 @@
 #
 #    pip-compile --no-emit-options --output-file=requirements.txt requirements.in
 #
-anyio==3.6.2
+anyio==3.7.1
     # via
+    #   fastapi
     #   httpcore
     #   starlette
 bcrypt==4.0.1
@@ -28,7 +29,7 @@ cryptography==39.0.0
     # via paramiko
 fabric==2.7.1
     # via rqmonitor
-fastapi==0.95.2
+fastapi==0.104.1
     # via -r requirements.in
 flask==2.2.2
     # via rqmonitor
@@ -109,8 +110,10 @@ starlette==0.27.0
     # via fastapi
 toml==0.10.2
     # via -r requirements.in
-typing-extensions==4.4.0
-    # via pydantic
+typing-extensions==4.8.0
+    # via
+    #   fastapi
+    #   pydantic
 uvicorn==0.23.2
     # via -r requirements.in
 werkzeug==2.2.2
