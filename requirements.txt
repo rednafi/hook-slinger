@@ -6,7 +6,7 @@
 #
 anyio==3.6.2
     # via
-    #   httpcore
+    #   httpx
     #   starlette
 bcrypt==4.0.1
     # via paramiko
@@ -40,10 +40,12 @@ h2==4.1.0
     # via httpx
 hpack==4.0.0
     # via h2
-httpcore==0.18.0
+httpcore==1.0.2
     # via httpx
-httpx[http2]==0.25.0
-    # via -r requirements.in
+httpx[http2]==0.25.2
+    # via
+    #   -r requirements.in
+    #   httpx
 humanize==4.4.0
     # via rqmonitor
 hyperframe==6.0.1
@@ -103,7 +105,6 @@ six==1.16.0
 sniffio==1.3.0
     # via
     #   anyio
-    #   httpcore
     #   httpx
 starlette==0.27.0
     # via fastapi
