@@ -42,7 +42,7 @@ pluggy==1.0.0
     # via pytest
 pycparser==2.21
     # via cffi
-pytest==7.4.3
+pytest==7.4.4
     # via
     #   -r requirements-dev.in
     #   pytest-asyncio
