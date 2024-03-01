@@ -6,7 +6,7 @@
 #
 black==22.12.0
     # via -r requirements-dev.in
-build==0.9.0
+build==1.1.1
     # via pip-tools
 cffi==1.15.1
     # via cryptography
@@ -32,9 +32,7 @@ packaging==23.0
     #   pytest
 pathspec==0.10.3
     # via black
-pep517==0.13.0
-    # via build
-pip-tools==7.3.0
+pip-tools==7.4.0
     # via -r requirements-dev.in
 platformdirs==2.6.2
     # via black
@@ -42,6 +40,10 @@ pluggy==1.0.0
     # via pytest
 pycparser==2.21
     # via cffi
+pyproject-hooks==1.0.0
+    # via
+    #   build
+    #   pip-tools
 pytest==7.4.4
     # via
     #   -r requirements-dev.in
