@@ -87,7 +87,7 @@ redis==5.0.3
     #   -r requirements.in
     #   rq
     #   rqmonitor
-rich==13.7.0
+rich==13.7.1
     # via -r requirements.in
 rq==1.16.1
     # via
