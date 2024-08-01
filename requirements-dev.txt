@@ -20,7 +20,7 @@ cryptography==39.0.0
     #   types-redis
 iniconfig==2.0.0
     # via pytest
-mypy==1.10.1
+mypy==1.11.1
     # via -r requirements-dev.in
 mypy-extensions==1.0.0
     # via
@@ -56,7 +56,7 @@ types-pyopenssl==23.0.0.2
     # via types-redis
 types-redis==4.6.0.20240425
     # via -r requirements-dev.in
-typing-extensions==4.4.0
+typing-extensions==4.12.2
     # via mypy
 wheel==0.38.4
     # via pip-tools
