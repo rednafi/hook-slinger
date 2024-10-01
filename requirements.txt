@@ -110,7 +110,7 @@ toml==0.10.2
     # via -r requirements.in
 typing-extensions==4.4.0
     # via pydantic
-uvicorn==0.30.6
+uvicorn==0.31.0
     # via -r requirements.in
 werkzeug==2.2.2
     # via
