@@ -28,7 +28,7 @@ cryptography==39.0.0
     # via paramiko
 fabric==2.7.1
     # via rqmonitor
-fastapi==0.95.2
+fastapi==0.115.5
     # via -r requirements.in
 flask==2.2.2
     # via rqmonitor
@@ -102,12 +102,14 @@ six==1.16.0
     #   rqmonitor
 sniffio==1.3.0
     # via anyio
-starlette==0.27.0
+starlette==0.41.3
     # via fastapi
 toml==0.10.2
     # via -r requirements.in
-typing-extensions==4.4.0
-    # via pydantic
+typing-extensions==4.12.2
+    # via
+    #   fastapi
+    #   pydantic
 uvicorn==0.32.1
     # via -r requirements.in
 werkzeug==2.2.2
