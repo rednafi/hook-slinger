@@ -42,7 +42,7 @@ hpack==4.0.0
     # via h2
 httpcore==1.0.2
     # via httpx
-httpx[http2]==0.27.2
+httpx[http2]==0.28.0
     # via -r requirements.in
 humanize==4.4.0
     # via rqmonitor
@@ -101,9 +101,7 @@ six==1.16.0
     #   pathlib2
     #   rqmonitor
 sniffio==1.3.0
-    # via
-    #   anyio
-    #   httpx
+    # via anyio
 starlette==0.27.0
     # via fastapi
 toml==0.10.2
