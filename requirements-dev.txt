@@ -20,7 +20,7 @@ cryptography==39.0.0
     #   types-redis
 iniconfig==2.0.0
     # via pytest
-mypy==1.15.0
+mypy==1.16.1
     # via -r requirements-dev.in
 mypy-extensions==1.0.0
     # via
@@ -31,7 +31,9 @@ packaging==23.0
     #   build
     #   pytest
 pathspec==0.10.3
-    # via black
+    # via
+    #   black
+    #   mypy
 pip-tools==7.4.1
     # via -r requirements-dev.in
 platformdirs==2.6.2
