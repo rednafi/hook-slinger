@@ -54,7 +54,7 @@ pytest==8.4.1
     #   pytest-asyncio
 pytest-asyncio==1.0.0
     # via -r requirements-dev.in
-ruff==0.4.7
+ruff==0.12.7
     # via -r requirements-dev.in
 types-pyopenssl==23.0.0.2
     # via types-redis
