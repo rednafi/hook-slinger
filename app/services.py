@@ -67,7 +67,7 @@ def send_post_request(webhook_payload: SlingerRequestPayload) -> None:
             timeout=config.HTTP_TIMEOUT,
         )
 
-        if not response.status_code == HTTPStatus.OK:
+        if response.status_code >= 300:
             raise WebhookPostFailedError(
                 f"Sending webhook failed.\n"
                 f"to_url: {to_url}\n"
