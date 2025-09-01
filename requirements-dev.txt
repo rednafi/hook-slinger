@@ -52,7 +52,7 @@ pytest==8.4.1
     # via
     #   -r requirements-dev.in
     #   pytest-asyncio
-pytest-asyncio==1.0.0
+pytest-asyncio==1.1.0
     # via -r requirements-dev.in
 ruff==0.4.7
     # via -r requirements-dev.in
