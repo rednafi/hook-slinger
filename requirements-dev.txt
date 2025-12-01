@@ -4,7 +4,7 @@
 #
 #    pip-compile --no-emit-options --output-file=requirements-dev.txt requirements-dev.in
 #
-black==22.12.0
+black==25.11.0
     # via -r requirements-dev.in
 build==1.1.1
     # via pip-tools
@@ -28,6 +28,7 @@ mypy-extensions==1.0.0
     #   mypy
 packaging==23.0
     # via
+    #   black
     #   build
     #   pytest
 pathspec==0.10.3
@@ -54,6 +55,8 @@ pytest==8.4.2
     #   pytest-asyncio
 pytest-asyncio==1.1.0
     # via -r requirements-dev.in
+pytokens==0.3.0
+    # via black
 ruff==0.4.7
     # via -r requirements-dev.in
 types-pyopenssl==23.0.0.2
