@@ -4,6 +4,10 @@
 #
 #    pip-compile --no-emit-options --output-file=requirements.txt requirements.in
 #
+annotated-doc==0.0.4
+    # via fastapi
+annotated-types==0.7.0
+    # via pydantic
 anyio==3.6.2
     # via
     #   httpx
@@ -30,7 +34,7 @@ cryptography==39.0.0
     # via paramiko
 fabric==2.7.1
     # via rqmonitor
-fastapi==0.95.2
+fastapi==0.128.0
     # via -r requirements.in
 flask==2.2.2
     # via rqmonitor
@@ -76,8 +80,10 @@ pathlib2==2.3.7.post1
     # via fabric
 pycparser==2.21
     # via cffi
-pydantic==1.10.4
+pydantic==2.12.5
     # via fastapi
+pydantic-core==2.41.5
+    # via pydantic
 pygments==2.14.0
     # via rich
 pynacl==1.5.0
@@ -109,11 +115,18 @@ six==1.16.0
     #   rqmonitor
 sniffio==1.3.0
     # via anyio
-starlette==0.27.0
+starlette==0.50.0
     # via fastapi
 toml==0.10.2
     # via -r requirements.in
-typing-extensions==4.4.0
+typing-extensions==4.15.0
+    # via
+    #   fastapi
+    #   pydantic
+    #   pydantic-core
+    #   starlette
+    #   typing-inspection
+typing-inspection==0.4.2
     # via pydantic
 uvicorn==0.38.0
     # via -r requirements.in
